@@ -28,5 +28,7 @@ reports/*
 !reports/*.md
 !reports/phase3/
 !reports/phase3/*
+!reports/final/
+!reports/final/**
 models/*
 !models/.gitkeep

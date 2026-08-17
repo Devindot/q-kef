@@ -1,0 +1,5 @@
+system,active,archived,edges,nodes,superseded,warnings
+append_only,500,0,0,500,0,0
+conventional,566,1,560,814,100,3
+oracle,514,50,561,811,100,3
+qkef,563,1,561,811,100,3

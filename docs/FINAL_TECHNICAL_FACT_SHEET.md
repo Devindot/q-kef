@@ -1,0 +1,22 @@
+# Final Technical Fact Sheet
+
+- Title: Q-KEF — Quantum-Inspired Knowledge Evolution Framework for Dynamic Enterprise Semantic Graphs
+- Problem: obsolete and contradictory knowledge retained by append-only retrieval systems
+- Input/output: sanitized incoming text → lifecycle probabilities, candidates, effect preview, graph/vector update, and evidence
+- Actions: NEW, REPLACE, MERGE, ARCHIVE, COEXIST, SPLIT
+- BEIR FiQA: 57,638 documents; 6,648 queries
+- Evolution benchmark: 300 events, 50/action; TRAIN/DEV/TEST 180/60/60
+- Embedding: `sentence-transformers/all-MiniLM-L6-v2`, CPU, 384 dimensions, normalized
+- Conventional B: StandardScaler + balanced LogisticRegression, C=0.1
+- Q-KEF C: same family, C=1.0; TRAIN-only PCA dimension 16
+- Candidate: top-k 5; R@1 0.8533, R@3 0.9467, R@5 0.9600, MRR 0.8978
+- TEST: B accuracy/macro F1 0.8500/0.8455; C 0.9000/0.8933
+- Retrieval Recall@5: A 0.6717, B 0.7218, C 0.7225, oracle 0.5893
+- Obsolete@5: A 0.3393, B 0.1173, C 0.1180, oracle 0.0000
+- Storage: NumPy exact index and NetworkX MultiDiGraph
+- QA: deterministic extractive evidence composer; no LLM
+- Hardware: CPU-compatible; no CUDA requirement
+- Quantum disclaimer: classical linear algebra only; no hardware, simulator, or advantage claim
+- Final Python: 3.12.13
+- Verified dependencies: NumPy 2.5.2, pandas 3.0.5, scikit-learn 1.9.0, SciPy 1.18.0, Joblib 1.5.3, NetworkX 3.6.1, SentenceTransformers 5.7.0, Streamlit 1.61.1, Plotly 6.9.0, Matplotlib 3.11.1, Pydantic 2.13.4, PyYAML 6.0.3
+- Final test result: 90 passed; `pip check` reports no broken requirements

@@ -1,0 +1,310 @@
+{
+  "ablation": {
+    "absolute_macro_f1_difference": 0.04787180465098084,
+    "conventional_macro_f1": 0.8454598033545402,
+    "qkef_macro_f1": 0.893331608005521
+  },
+  "candidate_retrieval": {
+    "eligible": 150,
+    "mrr": 0.8977777777777779,
+    "recall@1": 0.8533333333333334,
+    "recall@3": 0.9466666666666667,
+    "recall@5": 0.96
+  },
+  "dataset": {
+    "corpus_documents": 57638,
+    "dev": 60,
+    "evolution_events": 300,
+    "name": "BEIR FiQA",
+    "queries": 6648,
+    "test": 60,
+    "train": 180
+  },
+  "embedding": {
+    "backend": "sentence_transformers",
+    "cache_hit": true,
+    "dimension": 384,
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "normalized": true,
+    "records": 823
+  },
+  "graph_statistics": {
+    "append_only": {
+      "active": 500,
+      "archived": 0,
+      "edges": 0,
+      "nodes": 500,
+      "superseded": 0,
+      "warnings": 0
+    },
+    "conventional": {
+      "active": 566,
+      "archived": 1,
+      "edges": 560,
+      "nodes": 814,
+      "superseded": 100,
+      "warnings": 3
+    },
+    "oracle": {
+      "active": 514,
+      "archived": 50,
+      "edges": 561,
+      "nodes": 811,
+      "superseded": 100,
+      "warnings": 3
+    },
+    "qkef": {
+      "active": 563,
+      "archived": 1,
+      "edges": 561,
+      "nodes": 811,
+      "superseded": 100,
+      "warnings": 3
+    }
+  },
+  "known_warnings": [
+    "Three SPLIT executions per learned/oracle system used safe fallback.",
+    "COEXIST is the weakest held-out class.",
+    "Joblib emits harmless NumPy 2.5 deprecation warnings during reload."
+  ],
+  "lifecycle_classification": {
+    "conventional": {
+      "DEV": {
+        "C": 0.1,
+        "accuracy": 0.95,
+        "balanced_accuracy": 0.9500000000000001,
+        "macro_f1": 0.9509704212221375
+      },
+      "TEST": {
+        "accuracy": 0.85,
+        "balanced_accuracy": 0.85,
+        "macro_f1": 0.8454598033545402,
+        "macro_precision": 0.8785984848484848,
+        "macro_recall": 0.85,
+        "per_class": {
+          "ARCHIVE": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 10.0
+          },
+          "COEXIST": {
+            "f1-score": 0.5333333333333333,
+            "precision": 0.8,
+            "recall": 0.4,
+            "support": 10.0
+          },
+          "MERGE": {
+            "f1-score": 0.9473684210526315,
+            "precision": 1.0,
+            "recall": 0.9,
+            "support": 10.0
+          },
+          "NEW": {
+            "f1-score": 0.6923076923076923,
+            "precision": 0.5625,
+            "recall": 0.9,
+            "support": 10.0
+          },
+          "REPLACE": {
+            "f1-score": 0.9523809523809523,
+            "precision": 0.9090909090909091,
+            "recall": 1.0,
+            "support": 10.0
+          },
+          "SPLIT": {
+            "f1-score": 0.9473684210526315,
+            "precision": 1.0,
+            "recall": 0.9,
+            "support": 10.0
+          }
+        },
+        "weighted_f1": 0.8454598033545402
+      }
+    },
+    "qkef": {
+      "DEV": {
+        "C": 1.0,
+        "accuracy": 0.9666666666666667,
+        "balanced_accuracy": 0.9666666666666667,
+        "macro_f1": 0.9666666666666667
+      },
+      "TEST": {
+        "accuracy": 0.9,
+        "balanced_accuracy": 0.9,
+        "macro_f1": 0.893331608005521,
+        "macro_precision": 0.9057886557886557,
+        "macro_recall": 0.9,
+        "per_class": {
+          "ARCHIVE": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 10.0
+          },
+          "COEXIST": {
+            "f1-score": 0.625,
+            "precision": 0.8333333333333334,
+            "recall": 0.5,
+            "support": 10.0
+          },
+          "MERGE": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 10.0
+          },
+          "NEW": {
+            "f1-score": 0.782608695652174,
+            "precision": 0.6923076923076923,
+            "recall": 0.9,
+            "support": 10.0
+          },
+          "REPLACE": {
+            "f1-score": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "support": 10.0
+          },
+          "SPLIT": {
+            "f1-score": 0.9523809523809523,
+            "precision": 0.9090909090909091,
+            "recall": 1.0,
+            "support": 10.0
+          }
+        },
+        "weighted_f1": 0.8933316080055211
+      }
+    }
+  },
+  "model_metadata": {
+    "classifier_family": "StandardScaler + class-balanced LogisticRegression",
+    "conventional_C": 0.1,
+    "pca_fit_split": "TRAIN",
+    "qkef_C": 1.0,
+    "state_dimension": 16
+  },
+  "release": "Phase 4 Final Academic Release",
+  "retrieval": {
+    "append_only": {
+      "mrr": 0.6503333333333332,
+      "ndcg@5": 0.610879719704002,
+      "obsolete_rate@5": 0.33933333333333465,
+      "recall@5": 0.6716666666666666
+    },
+    "conventional": {
+      "mrr": 0.6494444444444443,
+      "ndcg@5": 0.6611695957335698,
+      "obsolete_rate@5": 0.11733333333333318,
+      "recall@5": 0.7218338420838422
+    },
+    "oracle": {
+      "mrr": 0.542222222222222,
+      "ndcg@5": 0.5466081469337022,
+      "obsolete_rate@5": 0.0,
+      "recall@5": 0.5892782865282865
+    },
+    "qkef": {
+      "mrr": 0.6505555555555556,
+      "ndcg@5": 0.6613393486224382,
+      "obsolete_rate@5": 0.11799999999999986,
+      "recall@5": 0.7225005087505088
+    }
+  },
+  "scientific_results_frozen": true,
+  "statistical_analysis": {
+    "confidence_level": 0.95,
+    "intervals": {
+      "accuracy_difference": {
+        "lower": -0.01666666666666672,
+        "upper": 0.1333333333333333
+      },
+      "b_accuracy": {
+        "lower": 0.75,
+        "upper": 0.9333333333333333
+      },
+      "b_macro_f1": {
+        "lower": 0.7491173236682409,
+        "upper": 0.9240945479641131
+      },
+      "c_accuracy": {
+        "lower": 0.8166666666666667,
+        "upper": 0.9666666666666667
+      },
+      "c_macro_f1": {
+        "lower": 0.8057369385000963,
+        "upper": 0.9606481481481483
+      },
+      "macro_f1_difference": {
+        "lower": -0.03759458006490748,
+        "upper": 0.14139742671309605
+      }
+    },
+    "iterations": 5000,
+    "mcnemar": {
+      "b_correct_c_wrong": 1,
+      "b_wrong_c_correct": 4,
+      "discordant_total": 5,
+      "exact_p_value": 0.375
+    },
+    "seed": 42
+  },
+  "supplementary_retrieval": {
+    "definitions": {
+      "active_valid_hit_rate": "Retrieved-item fraction not marked archived/superseded by the oracle lifecycle state.",
+      "current_version_hit_rate": "Among REPLACE queries, fraction whose top-k contains an active record representing the event source lineage.",
+      "lineage_normalized_hit_rate": "Query fraction with at least one top-k active record whose source lineage intersects the query event's source documents.",
+      "obsolete_free_query_rate": "Query fraction with no oracle-obsolete identifier in top-k."
+    },
+    "systems": {
+      "append_only": {
+        "active_valid_hit_rate@1": 0.6366666666666667,
+        "active_valid_hit_rate@5": 0.6606666666666666,
+        "current_version_hit_rate@1": 0.5,
+        "current_version_hit_rate@5": 0.7,
+        "lineage_normalized_hit_rate@1": 0.5666666666666667,
+        "lineage_normalized_hit_rate@5": 0.79,
+        "obsolete_free_query_rate@1": 0.6366666666666667,
+        "obsolete_free_query_rate@5": 0.10333333333333333,
+        "query_denominator": 300,
+        "replacement_query_denominator": 50
+      },
+      "conventional": {
+        "active_valid_hit_rate@1": 0.8133333333333334,
+        "active_valid_hit_rate@5": 0.8826666666666667,
+        "current_version_hit_rate@1": 0.5,
+        "current_version_hit_rate@5": 0.64,
+        "lineage_normalized_hit_rate@1": 0.5733333333333334,
+        "lineage_normalized_hit_rate@5": 0.7633333333333333,
+        "obsolete_free_query_rate@1": 0.8133333333333334,
+        "obsolete_free_query_rate@5": 0.55,
+        "query_denominator": 300,
+        "replacement_query_denominator": 50
+      },
+      "oracle": {
+        "active_valid_hit_rate@1": 1.0,
+        "active_valid_hit_rate@5": 1.0,
+        "current_version_hit_rate@1": 0.54,
+        "current_version_hit_rate@5": 0.66,
+        "lineage_normalized_hit_rate@1": 0.48333333333333334,
+        "lineage_normalized_hit_rate@5": 0.6333333333333333,
+        "obsolete_free_query_rate@1": 1.0,
+        "obsolete_free_query_rate@5": 1.0,
+        "query_denominator": 300,
+        "replacement_query_denominator": 50
+      },
+      "qkef": {
+        "active_valid_hit_rate@1": 0.8133333333333334,
+        "active_valid_hit_rate@5": 0.882,
+        "current_version_hit_rate@1": 0.5,
+        "current_version_hit_rate@5": 0.64,
+        "lineage_normalized_hit_rate@1": 0.5733333333333334,
+        "lineage_normalized_hit_rate@5": 0.7666666666666667,
+        "obsolete_free_query_rate@1": 0.8133333333333334,
+        "obsolete_free_query_rate@5": 0.5466666666666666,
+        "query_denominator": 300,
+        "replacement_query_denominator": 50
+      }
+    }
+  }
+}

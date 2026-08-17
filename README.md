@@ -1,178 +1,108 @@
-# Q-KEF: Quantum-Inspired Knowledge Evolution Framework
+# Q-KEF
 
-Q-KEF is a university research project investigating whether managing the
-lifecycle of incoming enterprise knowledge **before final indexing** can improve
-retrieval and question answering in knowledge bases that change over time.
+Quantum-Inspired Knowledge Evolution Framework for Dynamic Enterprise Semantic Graphs
 
-## Research motivation
+**Project status: Final Academic Release**
 
-Append-only retrieval-augmented generation (RAG) systems can leave outdated,
-duplicated, superseded, or contradictory chunks equally available to retrieval.
-Q-KEF proposes a pre-indexing knowledge evolution layer that can represent
-lifecycle actions such as `NEW`, `REPLACE`, `MERGE`, `ARCHIVE`, `COEXIST`, and
-potentially `SPLIT`. The project asks:
+## Overview
 
-> Can pre-indexing knowledge lifecycle management improve retrieval and answer
-> correctness in temporally evolving and contradictory knowledge bases compared
-> with append-only RAG?
+Q-KEF is a reproducible academic prototype that places a Knowledge Evolution layer before final retrieval indexing. It identifies whether incoming knowledge should be added, replace existing knowledge, merge, archive, coexist, or split, then preserves lifecycle and provenance in a local vector knowledge base and semantic graph.
 
-This is a research hypothesis, not a claim of demonstrated superiority or
-novelty. The planned experiments compare append-only RAG, conventional evolution
-logic, and the proposed Q-KEF system.
+## Problem
 
-## High-level architecture
+Append-only retrieval-augmented systems can expose outdated, superseded, duplicate, or contradictory records with equal status. Q-KEF studies whether pre-indexing lifecycle management reduces obsolete retrieval while retaining auditable history.
 
-```text
-Incoming documents -> Ingest -> Chunk -> Embed -> Compare with candidates
-                                               -> Context features
-Candidates + context -> Quantum-inspired encoder -> Evolution engine
-                     -> Evolution-aware vector index + semantic graph
-                     -> Hybrid retrieval -> LLM / QA
-```
+## Research Question
 
-The central contribution under investigation is the pre-indexing knowledge
-evolution layer. See [System Architecture](docs/SYSTEM_ARCHITECTURE.md) for the
-full conceptual flow and comparison with standard RAG.
+Can a six-action pre-indexing lifecycle layer improve retrieval over append-only storage, and does a classical quantum-inspired state augmentation add measurable value beyond conventional evolution features?
 
-## Scientific caveat
+## Architecture
 
-“Quantum-inspired” means a **classical simulation** using mathematical ideas
-such as normalized state vectors, superposition-style multidimensional
-representations, inner products, and fidelity-like similarity. Q-KEF is not a
-quantum-computing or quantum-hardware project, and no quantum advantage is
-claimed. Whether this representation adds measurable value is explicitly tested
-by an ablation experiment.
+`Incoming text → sanitize → MiniLM → candidate search → conventional + optional Q-state features → lifecycle classifier → evolution-aware vector KB + graph → evidence retrieval`
 
-## Current implementation status
+The Streamlit application loads frozen artifacts. It does not train or tune models at startup.
 
-Phase 2 extends the reproducible foundation with model-facing ingestion and
-deterministic chunking:
+## Dataset
 
-- Python package boundaries and a validated `KnowledgeUnit` schema
-- lifecycle and evolution-action enums
-- configuration placeholders with project seed `42`
-- research scope, hypotheses, dataset plan, architecture, terminology, and a
-  three-system experiment plan
-- offline environment verification and unit tests
-- safe, checksum-verifying and idempotent canonical FiQA acquisition
-- a dependency-free BEIR FiQA loader with reference validation
-- deterministic ground-truth generation for all six lifecycle actions
-- train/dev/test ancestry-leakage controls, provenance and source-file hashes
-- benchmark validation, summary, manifest, report, and blank human-review sample
-- exact raw/model-text separation with traced conservative normalization
-- metadata-driven MERGE, SPLIT, and ARCHIVE scaffold sanitization
-- identity, overlapping fixed-window, and lexical TF-IDF boundary chunkers
-- opaque chunk IDs, full provenance, coverage/hash checks, and leakage audits
+The source is canonical BEIR FiQA: 57,638 documents and 6,648 queries. A controlled temporal benchmark contains 300 events—50 per action—with 180 TRAIN, 60 DEV, and 60 held-out TEST events. Temporal changes are controlled/synthetic, not historical enterprise updates.
 
-The canonical BEIR archive was acquired with verified MD5
-`17918ed23cd04fb15047f73e6c3bd9d9` (57,638 documents; 6,648 queries). The default
-build produced all 300 requested events and passed deterministic and leakage
-validation. Exact observed statistics are in the
-[Phase 1 dataset report](reports/phase1_dataset_report.md).
+## Evolution Actions
 
-The Phase 2 real-data build processed all 500 benchmark knowledge units and
-produced 500 identity, 945 fixed-window, and 1,340 TF-IDF-boundary chunks with
-100% model-content coverage and zero synthetic-marker or cross-split ancestry
-leakage. See the [Phase 2 report](reports/phase2_ingestion_chunking_report.md).
+- `NEW`: add active knowledge.
+- `REPLACE`: supersede a predecessor.
+- `MERGE`: create a deterministic representation with both provenance branches.
+- `ARCHIVE`: remove a target from active retrieval while retaining audit history.
+- `COEXIST`: keep both records active and linked.
+- `SPLIT`: create independently active children when segmentation is usable.
 
-No neural semantic model, evolution predictor, vector store, graph integration,
-dashboard, LLM pipeline, or performance experiment is implemented yet. Phase 1
-rules construct labels; they do not predict them.
+## Quantum-Inspired Component
 
-## Planned phases
+MiniLM embeddings are transformed by a TRAIN-only 16-dimensional PCA basis and L2-normalized. Fidelity-like similarity, squared-amplitude entropy, coherence-like descriptors, and Hellinger distance are classical engineered features. No quantum hardware, simulator, circuit, qubit, or quantum advantage is involved.
 
-1. **Phase 0 — Foundation (complete):** contracts, reproducibility, research and
-   experimental design.
-2. **Phase 1 — Controlled data pipeline (complete):** acquire canonical FiQA and
-   create separately stored, provenance-preserving temporal scenarios.
-3. **Phase 2 — Ingestion and chunking (current):** separate raw/model-facing text
-   and create deterministic label-safe chunk corpora.
-4. **Phase 3 — Baselines:** implement later authorized representations and/or
-   conventional comparison infrastructure.
-5. **Phase 4 — Proposed representation:** implement the classical
-   quantum-inspired state representation and Q-KEF decision mechanism.
-6. **Phase 5 — Evaluation:** run retrieval, answer, evolution, system, and
-   ablation experiments.
-7. **Phase 6 — Demonstration and reporting:** package results and, if useful,
-   build a local interface and optional graph integration.
+## Experimental Systems
 
-Later phases remain contingent on experimental design and available time.
+- A: append-only retrieval baseline.
+- B: conventional evolution using safe content and candidate features.
+- C: Q-KEF using the same candidates/classifier family plus quantum-inspired features.
+- Oracle: descriptive lifecycle upper-bound state.
 
-## Local setup
+## Results
 
-Python 3.11 or newer is required. From the repository root:
+Candidate Recall@5 is 0.9600. On held-out TEST, B achieved 0.8455 macro F1 and C achieved 0.8933, a descriptive +0.0479 absolute difference. Obsolete retrieval@5 was 0.3393 for append-only and 0.1180 for Q-KEF. See [the final experiment report](reports/FINAL_EXPERIMENT_REPORT.md) for uncertainty and limitations.
+
+## Installation
+
+Verified with Python 3.12.13.
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python -m pip install -e .
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
-Run the offline checks:
+## Running the App
 
 ```powershell
-python scripts/verify_environment.py
+python scripts/final_release_check.py
+streamlit run app.py
+```
+
+After dependencies and the MiniLM cache are present, no internet, paid API, Neo4j, Pinecone, or LLM is required.
+
+## Reproducing Experiments
+
+The final app consumes frozen Phase 3 models and reports. See [REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) for source acquisition, Phase 1–3 rebuild commands, and the non-training Phase 4 analysis.
+
+## Testing
+
+```powershell
+python -m compileall -q src scripts tests app.py
 pytest -q
-python -m compileall -q src scripts tests
+pip check
 ```
 
-Acquire and build the Phase 1 benchmark:
+## Repository Structure
 
-```powershell
-python scripts/download_fiqa.py
-python scripts/build_evolution_benchmark.py
-python scripts/validate_evolution_benchmark.py
-python scripts/summarize_evolution_benchmark.py
-```
+- `src/qkef/`: ingestion, evolution, runtime, retrieval, graph, QA, and analysis packages.
+- `data/demo/`: disclosed benchmark-backed demo cases.
+- `models/phase3/`: trusted frozen model artifacts generated locally.
+- `reports/phase3/`: frozen scientific outputs.
+- `reports/final/`: statistics, supplementary analyses, figures, tables, results, and release manifest.
+- `docs/`: architecture, claims, demo, viva, reproduction, responsible-use, and handoff guides.
+- `app.py`: final Streamlit entry point.
 
-See [Evolution Benchmark](docs/EVOLUTION_BENCHMARK.md) for construction rules,
-provenance, leakage prevention, and limitations.
+## Limitations
 
-Build the Phase 2 chunk corpus:
+The benchmark is modest, controlled, finance-domain, and based on synthetic temporal transformations. MiniLM is generic; COEXIST remains difficult; SPLIT overlaps with segmentation; retrieval relevance is provenance-dependent; wider enterprise and human evaluation are required.
 
-```powershell
-python scripts/build_chunks.py
-python scripts/validate_chunks.py
-python scripts/summarize_chunks.py
-```
+## Responsible Use
 
-See [Ingestion and Chunking](docs/INGESTION_AND_CHUNKING.md) for normalization,
-sanitization, chunking, provenance, and label-leakage controls.
+Predictions require human review before lifecycle changes. Preserve provenance and audit history; never treat ARCHIVE as authorization for irreversible physical deletion. The evidence demo is not financial advice and is not production validated.
 
-## Repository structure
+## Quantum Disclaimer
 
-```text
-qkef/
-├── configs/default.yaml       # Future parameters; unknown thresholds are null
-├── data/                      # Raw, interim, processed, and provenance metadata
-├── docs/                      # Research and experimental specifications
-├── models/                    # Future local model artifacts
-├── reports/                   # Future experimental reports
-├── scripts/verify_environment.py
-├── src/qkef/                  # Source-layout Python package
-├── tests/                     # Offline import and schema tests
-├── pyproject.toml
-└── requirements.txt
-```
+All quantum-inspired calculations are classical linear algebra. Q-KEF does not demonstrate or claim quantum advantage.
 
-## Reproducibility
+## Project Status
 
-The project seed is `42`. Future generated data and experiments must preserve
-source IDs, the effective random seed, timestamps and version metadata,
-transformation type, configuration, and generation method. Controlled updates
-must be stored separately from unmodified benchmark data.
-## Phase 3 core backend
-
-Q-KEF (Quantum-Inspired Knowledge Evolution Framework) is an academic research prototype for detecting and executing knowledge evolution over a controlled temporal FiQA benchmark. Phases 1–2 create a deterministic six-action benchmark and ingestion/chunking artifacts. Phase 3 adds real CPU MiniLM embeddings, fair conventional and quantum-inspired classifiers, evolution-aware knowledge-base simulation, semantic lineage graphs, held-out TEST evaluation, and retrieval comparison.
-
-Run the completed core experiment with:
-
-```powershell
-.venv\Scripts\python.exe scripts/run_phase3.py
-.venv\Scripts\python.exe scripts/validate_phase3.py
-.venv\Scripts\python.exe scripts/summarize_phase3.py
-```
-
-The optional `--offline-fallback` is explicit and intended only for tests or disconnected smoke runs; reported Phase 3 results must use `sentence-transformers/all-MiniLM-L6-v2`. See `docs/KNOWLEDGE_EVOLUTION_ENGINE.md` and `docs/QUANTUM_INSPIRED_MODEL.md` for the execution and representation design. All “quantum-inspired” computations are classical, and the modest synthetic benchmark does not support claims of general or quantum superiority.
+Phases 0–4 are complete. The release includes the backend, frozen experiment, interactive application, deterministic QA, post-hoc statistics, figures, documentation, regression tests, and final release validator.

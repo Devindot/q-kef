@@ -21,13 +21,13 @@ class SentenceEmbeddingEncoder:
 
     backend = "sentence_transformers"
 
-    def __init__(self, model_name: str, *, device: str = "cpu", batch_size: int = 32):
+    def __init__(self, model_name: str, *, device: str = "cpu", batch_size: int = 32, local_files_only: bool = False):
         from sentence_transformers import SentenceTransformer
 
         self.model_name = model_name
         self.device = device
         self.batch_size = batch_size
-        self.model = SentenceTransformer(model_name, device=device)
+        self.model = SentenceTransformer(model_name, device=device, local_files_only=local_files_only)
         if hasattr(self.model, "get_embedding_dimension"):
             self.dimension = int(self.model.get_embedding_dimension())
         else:  # Compatibility with SentenceTransformers releases before the rename.
