@@ -63,7 +63,14 @@ ingestion:
     max_unapproved_removal_fraction: 0.25
 
 embedding:
+  backend: sentence_transformers
   model_name: sentence-transformers/all-MiniLM-L6-v2
+  normalize_embeddings: true
+  batch_size: 32
+  device: cpu
+  cache_enabled: true
+  cache_dir: data/processed/qkef_embeddings
+  config_version: "1.0"
 
 evolution:
   candidate_top_k: 5
@@ -73,7 +80,44 @@ evolution:
 
 quantum_inspired:
   enabled: true
-  state_dimension: null
+  basis_method: pca
+  state_dimension_grid:
+    - 8
+    - 16
+    - 32
+  include:
+    fidelity: true
+    state_entropy: true
+    coherence_like: true
+    probability_distance: true
+
+candidate_retrieval:
+  top_k: 5
+
+evolution_models:
+  random_seed: 42
+  selection_metric: macro_f1
+  conventional:
+    classifier: logistic_regression
+    c_grid:
+      - 0.1
+      - 1.0
+      - 10.0
 
 retrieval:
   top_k: 5
+  evaluation_k:
+    - 1
+    - 3
+    - 5
+  selected_strategy: tfidf_boundary
+  hybrid_weights:
+    semantic: 0.8
+    lexical: 0.2
+    graph: 0.0
+
+phase3:
+  output_dir: data/processed/qkef_phase3
+  model_dir: models/phase3
+  report_dir: reports/phase3
+  version: "1.0"

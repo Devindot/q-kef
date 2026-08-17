@@ -1,1 +1,5 @@
-"""Embedding boundary (planned; not implemented in Phase 0)."""
+"""CPU sentence embedding and deterministic cache support."""
+
+from qkef.embeddings.encoder import DeterministicLexicalEncoder, SentenceEmbeddingEncoder
+
+__all__ = ["DeterministicLexicalEncoder", "SentenceEmbeddingEncoder"]

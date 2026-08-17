@@ -1,4 +1,4 @@
-# System Architecture
+## Phase 3 implemented backend
 
 ## Research architecture
 
@@ -124,3 +124,8 @@ The `src/qkef/` modules reserve boundaries for ingestion, chunking, embeddings,
 quantum-inspired representation, evolution, graph, retrieval, evaluation, and
 schemas. Only implementation-neutral schemas are active in Phase 0. Empty
 component packages do not imply implemented functionality.
+# System Architecture
+
+Phase 3 extends the validated FiQA benchmark and chunk corpus with a reproducible research backend. MiniLM encodes T0/T1 units and evaluation queries once into a content-addressed cache. Exact vector search supplies the same top-five same-split T0 candidates to both learned evolution models. The conventional model consumes safe surface and similarity features; Q-KEF appends TRAIN-only PCA state features. DEV locks hyperparameters and TEST is held out until evaluation.
+
+Predicted actions feed isolated evolution knowledge bases backed by an exact vector index and NetworkX lineage graph. Their active records are then evaluated with the same queries and hybrid ranking policy. Artifacts flow to `models/phase3`, `data/processed/qkef_phase3`, and `reports/phase3`; `scripts/validate_phase3.py` checks their integrity, provenance, reloadability, graph serialization, and leakage controls.

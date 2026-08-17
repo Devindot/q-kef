@@ -12,8 +12,14 @@ license = { text = "For academic project use; license to be determined" }
 authors = [{ name = "Q-KEF Research Team" }]
 dependencies = [
     "certifi>=2024.2,<2027.0",
+    "joblib>=1.4,<2.0",
+    "networkx>=3.2,<4.0",
+    "numpy>=1.26,<3.0",
+    "pandas>=2.2,<4.0",
     "pydantic>=2.6,<3.0",
     "PyYAML>=6.0,<7.0",
+    "scikit-learn>=1.4,<2.0",
+    "sentence-transformers>=3.0,<6.0",
 ]
 
 [project.optional-dependencies]

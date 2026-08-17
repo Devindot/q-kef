@@ -1,0 +1,110 @@
+{
+  "conventional": {
+    "DEV": {
+      "C": 0.1,
+      "accuracy": 0.95,
+      "balanced_accuracy": 0.9500000000000001,
+      "macro_f1": 0.9509704212221375
+    },
+    "TEST": {
+      "accuracy": 0.85,
+      "balanced_accuracy": 0.85,
+      "macro_f1": 0.8454598033545402,
+      "macro_precision": 0.8785984848484848,
+      "macro_recall": 0.85,
+      "per_class": {
+        "ARCHIVE": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10.0
+        },
+        "COEXIST": {
+          "f1-score": 0.5333333333333333,
+          "precision": 0.8,
+          "recall": 0.4,
+          "support": 10.0
+        },
+        "MERGE": {
+          "f1-score": 0.9473684210526315,
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10.0
+        },
+        "NEW": {
+          "f1-score": 0.6923076923076923,
+          "precision": 0.5625,
+          "recall": 0.9,
+          "support": 10.0
+        },
+        "REPLACE": {
+          "f1-score": 0.9523809523809523,
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10.0
+        },
+        "SPLIT": {
+          "f1-score": 0.9473684210526315,
+          "precision": 1.0,
+          "recall": 0.9,
+          "support": 10.0
+        }
+      },
+      "weighted_f1": 0.8454598033545402
+    }
+  },
+  "qkef": {
+    "DEV": {
+      "C": 1.0,
+      "accuracy": 0.9666666666666667,
+      "balanced_accuracy": 0.9666666666666667,
+      "macro_f1": 0.9666666666666667
+    },
+    "TEST": {
+      "accuracy": 0.9,
+      "balanced_accuracy": 0.9,
+      "macro_f1": 0.893331608005521,
+      "macro_precision": 0.9057886557886557,
+      "macro_recall": 0.9,
+      "per_class": {
+        "ARCHIVE": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10.0
+        },
+        "COEXIST": {
+          "f1-score": 0.625,
+          "precision": 0.8333333333333334,
+          "recall": 0.5,
+          "support": 10.0
+        },
+        "MERGE": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10.0
+        },
+        "NEW": {
+          "f1-score": 0.782608695652174,
+          "precision": 0.6923076923076923,
+          "recall": 0.9,
+          "support": 10.0
+        },
+        "REPLACE": {
+          "f1-score": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "support": 10.0
+        },
+        "SPLIT": {
+          "f1-score": 0.9523809523809523,
+          "precision": 0.9090909090909091,
+          "recall": 1.0,
+          "support": 10.0
+        }
+      },
+      "weighted_f1": 0.8933316080055211
+    }
+  }
+}

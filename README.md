@@ -163,3 +163,16 @@ The project seed is `42`. Future generated data and experiments must preserve
 source IDs, the effective random seed, timestamps and version metadata,
 transformation type, configuration, and generation method. Controlled updates
 must be stored separately from unmodified benchmark data.
+## Phase 3 core backend
+
+Q-KEF (Quantum-Inspired Knowledge Evolution Framework) is an academic research prototype for detecting and executing knowledge evolution over a controlled temporal FiQA benchmark. Phases 1–2 create a deterministic six-action benchmark and ingestion/chunking artifacts. Phase 3 adds real CPU MiniLM embeddings, fair conventional and quantum-inspired classifiers, evolution-aware knowledge-base simulation, semantic lineage graphs, held-out TEST evaluation, and retrieval comparison.
+
+Run the completed core experiment with:
+
+```powershell
+.venv\Scripts\python.exe scripts/run_phase3.py
+.venv\Scripts\python.exe scripts/validate_phase3.py
+.venv\Scripts\python.exe scripts/summarize_phase3.py
+```
+
+The optional `--offline-fallback` is explicit and intended only for tests or disconnected smoke runs; reported Phase 3 results must use `sentence-transformers/all-MiniLM-L6-v2`. See `docs/KNOWLEDGE_EVOLUTION_ENGINE.md` and `docs/QUANTUM_INSPIRED_MODEL.md` for the execution and representation design. All “quantum-inspired” computations are classical, and the modest synthetic benchmark does not support claims of general or quantum superiority.

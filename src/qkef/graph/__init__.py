@@ -1,1 +1,1 @@
-"""Evolution-aware graph boundary (planned; not implemented in Phase 0)."""
+"""Local NetworkX evolution-aware semantic graph."""

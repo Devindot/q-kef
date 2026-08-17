@@ -1,0 +1,15 @@
+{
+  "candidate_top_k": 5,
+  "conventional_C": 0.1,
+  "hybrid_weights": {
+    "graph": 0.0,
+    "lexical": 0.2,
+    "semantic": 0.8
+  },
+  "qkef_C": 1.0,
+  "retrieval_strategy": "tfidf_boundary",
+  "selection_metric": "macro_f1",
+  "selection_split": "DEV",
+  "state_dimension": 16,
+  "test_used_for_selection": false
+}

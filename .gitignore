@@ -5,6 +5,7 @@ __pycache__/
 .coverage
 htmlcov/
 .venv/
+.phase3-venv/
 venv/
 .env
 .idea/
@@ -25,5 +26,7 @@ data/metadata/*
 reports/*
 !reports/.gitkeep
 !reports/*.md
+!reports/phase3/
+!reports/phase3/*
 models/*
 !models/.gitkeep

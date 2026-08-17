@@ -1,1 +1,1 @@
-"""Hybrid retrieval boundary (planned; not implemented in Phase 0)."""
+"""Exact local vector search and reproducible IR metrics."""
