@@ -93,7 +93,23 @@ the experiment split.
 - Record timestamps, versions, transformations, seed, and configuration for every
   generated dataset release.
 
-## Phase 0 boundary
+## Phase 1 implementation
 
-FiQA is neither downloaded nor transformed in Phase 0. No examples in this
-document are silently inserted into benchmark data.
+Phase 1 implements the acquisition, loading, deterministic construction,
+validation, summary, and review-sampling pipeline described above. The default
+configuration requests 50 cases for each of the six actions with a 30/10/10
+train/dev/test allocation. Source documents crossing original qrels splits are
+excluded, and each selected source document is used in only one event.
+
+The canonical archive is stored under `data/raw/beir/`; generated JSONL, CSV, and
+manifest files are stored separately under
+`data/processed/qkef_fiqa_evolution/`. Neither location is silently presented as
+original FiQA. See [EVOLUTION_BENCHMARK.md](EVOLUTION_BENCHMARK.md) for the stable
+construction rules, implemented checks, and limitations.
+
+The checksum-verified acquisition observed 57,638 corpus documents, 6,648
+queries, and qrels row counts of 14,166 train, 1,238 dev, and 1,706 test. The
+default generator produced 300 events (50 per action; 180 train, 60 dev, 60 test)
+from 450 unique source documents, with zero source-document and query overlap
+between benchmark splits. These are dataset-construction statistics, not system
+performance results.

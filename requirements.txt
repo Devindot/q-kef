@@ -1,4 +1,5 @@
-# Phase 0 runtime and verification dependencies only.
+# Phase 0/1 runtime and verification dependencies only.
+certifi>=2024.2,<2027.0
 pydantic>=2.6,<3.0
 PyYAML>=6.0,<7.0
 pytest>=8.0,<9.0

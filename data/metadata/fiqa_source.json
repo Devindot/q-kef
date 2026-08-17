@@ -1,0 +1,37 @@
+{
+  "acquisition_timestamp_utc": "2026-08-17T15:46:29.600652Z",
+  "archive_filename": "fiqa.zip",
+  "benchmark_name": "BEIR",
+  "checksum_verified": true,
+  "corpus_count": 57638,
+  "dataset_name": "fiqa",
+  "expected_md5": "17918ed23cd04fb15047f73e6c3bd9d9",
+  "local_paths": {
+    "archive": "data/raw/beir/fiqa.zip",
+    "dataset_root": "data/raw/beir/fiqa"
+  },
+  "notes": [
+    "Observed counts are recorded from the checksum-verified archive.",
+    "Acquisition does not alter corpus, query, or qrels content."
+  ],
+  "observed_md5": "17918ed23cd04fb15047f73e6c3bd9d9",
+  "project_seed": 42,
+  "qrel_row_counts": {
+    "dev": 1238,
+    "test": 1706,
+    "train": 14166
+  },
+  "qrels_split_names": [
+    "dev",
+    "test",
+    "train"
+  ],
+  "query_count": 6648,
+  "source_type": "official public benchmark archive",
+  "source_url": "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/fiqa.zip",
+  "unique_query_counts_by_qrels_split": {
+    "dev": 500,
+    "test": 648,
+    "train": 5500
+  }
+}

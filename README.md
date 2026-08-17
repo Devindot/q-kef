@@ -45,7 +45,7 @@ by an ablation experiment.
 
 ## Current implementation status
 
-Phase 0 establishes only a reproducible software and research foundation:
+Phase 1 extends the reproducible foundation with controlled benchmark tooling:
 
 - Python package boundaries and a validated `KnowledgeUnit` schema
 - lifecycle and evolution-action enums
@@ -53,16 +53,28 @@ Phase 0 establishes only a reproducible software and research foundation:
 - research scope, hypotheses, dataset plan, architecture, terminology, and a
   three-system experiment plan
 - offline environment verification and unit tests
+- safe, checksum-verifying and idempotent canonical FiQA acquisition
+- a dependency-free BEIR FiQA loader with reference validation
+- deterministic ground-truth generation for all six lifecycle actions
+- train/dev/test ancestry-leakage controls, provenance and source-file hashes
+- benchmark validation, summary, manifest, report, and blank human-review sample
 
-No dataset download, semantic model, evolution decision algorithm, vector store,
-graph integration, dashboard, LLM pipeline, or experiment is implemented yet.
+The canonical BEIR archive was acquired with verified MD5
+`17918ed23cd04fb15047f73e6c3bd9d9` (57,638 documents; 6,648 queries). The default
+build produced all 300 requested events and passed deterministic and leakage
+validation. Exact observed statistics are in the
+[Phase 1 dataset report](reports/phase1_dataset_report.md).
+
+No semantic model, evolution predictor, vector store, graph integration,
+dashboard, LLM pipeline, or performance experiment is implemented yet. Phase 1
+rules construct labels; they do not predict them.
 
 ## Planned phases
 
-1. **Phase 0 — Foundation (current):** contracts, reproducibility, research and
+1. **Phase 0 — Foundation (complete):** contracts, reproducibility, research and
    experimental design.
-2. **Phase 1 — Controlled data pipeline:** obtain a reproducible FiQA subset and
-   create separately stored, provenance-preserving temporal mutations.
+2. **Phase 1 — Controlled data pipeline (current):** acquire canonical FiQA and
+   create separately stored, provenance-preserving temporal scenarios.
 3. **Phase 2 — Baselines:** implement append-only RAG and a conventional
    similarity/metadata evolution mechanism.
 4. **Phase 3 — Proposed representation:** implement the classical
@@ -93,6 +105,18 @@ python scripts/verify_environment.py
 pytest -q
 python -m compileall -q src scripts tests
 ```
+
+Acquire and build the Phase 1 benchmark:
+
+```powershell
+python scripts/download_fiqa.py
+python scripts/build_evolution_benchmark.py
+python scripts/validate_evolution_benchmark.py
+python scripts/summarize_evolution_benchmark.py
+```
+
+See [Evolution Benchmark](docs/EVOLUTION_BENCHMARK.md) for construction rules,
+provenance, leakage prevention, and limitations.
 
 ## Repository structure
 

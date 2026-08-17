@@ -4,6 +4,9 @@
 def test_package_imports() -> None:
     import qkef
     import qkef.chunking
+    import qkef.datasets
+    import qkef.datasets.evolution
+    import qkef.datasets.fiqa
     import qkef.embeddings
     import qkef.evaluation
     import qkef.evolution

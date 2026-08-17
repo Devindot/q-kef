@@ -28,6 +28,8 @@ def main() -> int:
 
     try:
         package = importlib.import_module("qkef")
+        importlib.import_module("qkef.datasets.fiqa")
+        importlib.import_module("qkef.datasets.evolution")
         print(f"Package import: OK (qkef {package.__version__})")
     except Exception as exc:  # pragma: no cover - diagnostic boundary
         failures.append(f"package import failed: {exc}")
@@ -35,8 +37,10 @@ def main() -> int:
     try:
         with CONFIG_PATH.open("r", encoding="utf-8") as stream:
             config = yaml.safe_load(stream)
-        if config["project"]["seed"] != 42:
+        if config["project"]["seed"] != 42 or config["evolution_benchmark"]["seed"] != 42:
             failures.append("configuration seed is missing or not 42")
+        elif config["dataset"]["expected_md5"] != "17918ed23cd04fb15047f73e6c3bd9d9":
+            failures.append("canonical FiQA MD5 is missing or incorrect")
         else:
             print(f"Configuration: OK ({CONFIG_PATH.relative_to(PROJECT_ROOT)})")
     except Exception as exc:  # pragma: no cover - diagnostic boundary

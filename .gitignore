@@ -21,7 +21,9 @@ data/metadata/*
 !data/interim/.gitkeep
 !data/processed/.gitkeep
 !data/metadata/.gitkeep
+!data/metadata/*.json
 reports/*
 !reports/.gitkeep
+!reports/*.md
 models/*
 !models/.gitkeep

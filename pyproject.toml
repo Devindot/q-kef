@@ -11,6 +11,7 @@ requires-python = ">=3.11"
 license = { text = "For academic project use; license to be determined" }
 authors = [{ name = "Q-KEF Research Team" }]
 dependencies = [
+    "certifi>=2024.2,<2027.0",
     "pydantic>=2.6,<3.0",
     "PyYAML>=6.0,<7.0",
 ]

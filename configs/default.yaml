@@ -3,7 +3,30 @@ project:
 
 dataset:
   name: fiqa
+  source: beir
   temporal_variant: qkef-fiqa-evolution
+  raw_dir: data/raw/beir
+  processed_dir: data/processed/qkef_fiqa_evolution
+  source_url: https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/fiqa.zip
+  expected_md5: 17918ed23cd04fb15047f73e6c3bd9d9
+
+evolution_benchmark:
+  seed: 42
+  generator_version: "1.0"
+  action_definitions_version: "1.0"
+  events_per_action: 50
+  train_events_per_action: 30
+  dev_events_per_action: 10
+  test_events_per_action: 10
+  t0_timestamp: "2025-01-01T00:00:00Z"
+  t1_timestamp: "2026-01-01T00:00:00Z"
+  actions:
+    - NEW
+    - REPLACE
+    - MERGE
+    - ARCHIVE
+    - COEXIST
+    - SPLIT
 
 chunking:
   strategy: semantic
