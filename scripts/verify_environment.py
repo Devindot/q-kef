@@ -30,6 +30,9 @@ def main() -> int:
         package = importlib.import_module("qkef")
         importlib.import_module("qkef.datasets.fiqa")
         importlib.import_module("qkef.datasets.evolution")
+        importlib.import_module("qkef.ingestion.pipeline")
+        importlib.import_module("qkef.ingestion.corpus")
+        importlib.import_module("qkef.chunking.tfidf_boundary")
         print(f"Package import: OK (qkef {package.__version__})")
     except Exception as exc:  # pragma: no cover - diagnostic boundary
         failures.append(f"package import failed: {exc}")

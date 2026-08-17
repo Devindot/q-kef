@@ -45,7 +45,8 @@ by an ablation experiment.
 
 ## Current implementation status
 
-Phase 1 extends the reproducible foundation with controlled benchmark tooling:
+Phase 2 extends the reproducible foundation with model-facing ingestion and
+deterministic chunking:
 
 - Python package boundaries and a validated `KnowledgeUnit` schema
 - lifecycle and evolution-action enums
@@ -58,6 +59,10 @@ Phase 1 extends the reproducible foundation with controlled benchmark tooling:
 - deterministic ground-truth generation for all six lifecycle actions
 - train/dev/test ancestry-leakage controls, provenance and source-file hashes
 - benchmark validation, summary, manifest, report, and blank human-review sample
+- exact raw/model-text separation with traced conservative normalization
+- metadata-driven MERGE, SPLIT, and ARCHIVE scaffold sanitization
+- identity, overlapping fixed-window, and lexical TF-IDF boundary chunkers
+- opaque chunk IDs, full provenance, coverage/hash checks, and leakage audits
 
 The canonical BEIR archive was acquired with verified MD5
 `17918ed23cd04fb15047f73e6c3bd9d9` (57,638 documents; 6,648 queries). The default
@@ -65,7 +70,12 @@ build produced all 300 requested events and passed deterministic and leakage
 validation. Exact observed statistics are in the
 [Phase 1 dataset report](reports/phase1_dataset_report.md).
 
-No semantic model, evolution predictor, vector store, graph integration,
+The Phase 2 real-data build processed all 500 benchmark knowledge units and
+produced 500 identity, 945 fixed-window, and 1,340 TF-IDF-boundary chunks with
+100% model-content coverage and zero synthetic-marker or cross-split ancestry
+leakage. See the [Phase 2 report](reports/phase2_ingestion_chunking_report.md).
+
+No neural semantic model, evolution predictor, vector store, graph integration,
 dashboard, LLM pipeline, or performance experiment is implemented yet. Phase 1
 rules construct labels; they do not predict them.
 
@@ -73,15 +83,17 @@ rules construct labels; they do not predict them.
 
 1. **Phase 0 — Foundation (complete):** contracts, reproducibility, research and
    experimental design.
-2. **Phase 1 — Controlled data pipeline (current):** acquire canonical FiQA and
+2. **Phase 1 — Controlled data pipeline (complete):** acquire canonical FiQA and
    create separately stored, provenance-preserving temporal scenarios.
-3. **Phase 2 — Baselines:** implement append-only RAG and a conventional
-   similarity/metadata evolution mechanism.
-4. **Phase 3 — Proposed representation:** implement the classical
+3. **Phase 2 — Ingestion and chunking (current):** separate raw/model-facing text
+   and create deterministic label-safe chunk corpora.
+4. **Phase 3 — Baselines:** implement later authorized representations and/or
+   conventional comparison infrastructure.
+5. **Phase 4 — Proposed representation:** implement the classical
    quantum-inspired state representation and Q-KEF decision mechanism.
-5. **Phase 4 — Evaluation:** run retrieval, answer, evolution, system, and
+6. **Phase 5 — Evaluation:** run retrieval, answer, evolution, system, and
    ablation experiments.
-6. **Phase 5 — Demonstration and reporting:** package results and, if useful,
+7. **Phase 6 — Demonstration and reporting:** package results and, if useful,
    build a local interface and optional graph integration.
 
 Later phases remain contingent on experimental design and available time.
@@ -117,6 +129,17 @@ python scripts/summarize_evolution_benchmark.py
 
 See [Evolution Benchmark](docs/EVOLUTION_BENCHMARK.md) for construction rules,
 provenance, leakage prevention, and limitations.
+
+Build the Phase 2 chunk corpus:
+
+```powershell
+python scripts/build_chunks.py
+python scripts/validate_chunks.py
+python scripts/summarize_chunks.py
+```
+
+See [Ingestion and Chunking](docs/INGESTION_AND_CHUNKING.md) for normalization,
+sanitization, chunking, provenance, and label-leakage controls.
 
 ## Repository structure
 

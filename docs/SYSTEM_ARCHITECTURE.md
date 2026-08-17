@@ -68,10 +68,12 @@ representation.
 
 ## Planned component responsibilities
 
-1. **Semantic ingestion** preserves source identity, version, timestamps, and
-   provenance while normalizing inputs.
-2. **Semantic chunking** maps documents to coherent knowledge units without
-   discarding source relationships.
+1. **Semantic ingestion (implemented in Phase 2)** preserves exact raw text,
+   source identity, version, timestamps, and provenance while producing a
+   separate conservatively normalized and scaffold-sanitized model text.
+2. **Deterministic chunking (implemented in Phase 2)** derives identity,
+   fixed-window, and lexical TF-IDF-boundary chunks from one knowledge unit at a
+   time without discarding source relationships or using lifecycle labels.
 3. **Embedding encoder** supplies conventional semantic vectors used for
    candidate discovery and retrieval.
 4. **Candidate selection** finds a limited set of potentially related active or

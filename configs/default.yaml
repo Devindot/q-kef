@@ -7,6 +7,7 @@ dataset:
   temporal_variant: qkef-fiqa-evolution
   raw_dir: data/raw/beir
   processed_dir: data/processed/qkef_fiqa_evolution
+  chunk_processed_dir: data/processed/qkef_fiqa_chunks
   source_url: https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/fiqa.zip
   expected_md5: 17918ed23cd04fb15047f73e6c3bd9d9
 
@@ -29,7 +30,37 @@ evolution_benchmark:
     - SPLIT
 
 chunking:
-  strategy: semantic
+  enabled_strategies:
+    - identity
+    - fixed_window
+    - tfidf_boundary
+  fixed_window:
+    max_words: 160
+    overlap_words: 30
+  tfidf_boundary:
+    min_words: 50
+    target_words: 120
+    max_words: 180
+    boundary_similarity_threshold: 0.15
+
+ingestion:
+  version: "1.0"
+  expected_t0_units: 200
+  expected_t1_units: 300
+  normalization_version: "1.0"
+  sanitizer_version: "1.0"
+  normalization:
+    unicode_form: NFKC
+    normalize_line_endings: true
+    remove_zero_width: true
+    trim_whitespace: true
+    normalize_horizontal_whitespace: true
+    max_blank_lines: 2
+  sanitization:
+    remove_merge_scaffold: true
+    neutralize_split_boundary: true
+    remove_archive_target_id_from_text: true
+    max_unapproved_removal_fraction: 0.25
 
 embedding:
   model_name: sentence-transformers/all-MiniLM-L6-v2
