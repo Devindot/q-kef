@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qkef"
+version = "0.1.0"
+description = "Research foundation for the proposed Q-KEF knowledge evolution framework"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "For academic project use; license to be determined" }
+authors = [{ name = "Q-KEF Research Team" }]
+dependencies = [
+    "pydantic>=2.6,<3.0",
+    "PyYAML>=6.0,<7.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0,<9.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers"
+pythonpath = ["src"]
+testpaths = ["tests"]

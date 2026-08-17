@@ -1,0 +1,25 @@
+project:
+  seed: 42
+
+dataset:
+  name: fiqa
+  temporal_variant: qkef-fiqa-evolution
+
+chunking:
+  strategy: semantic
+
+embedding:
+  model_name: sentence-transformers/all-MiniLM-L6-v2
+
+evolution:
+  candidate_top_k: 5
+  replace_threshold: null
+  merge_threshold: null
+  coexist_threshold: null
+
+quantum_inspired:
+  enabled: true
+  state_dimension: null
+
+retrieval:
+  top_k: 5
