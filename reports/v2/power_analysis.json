@@ -1,0 +1,11 @@
+{
+  "assumptions": {
+    "alpha": 0.05,
+    "challenger_share_among_discordances": 0.8,
+    "v1_discordance_rate": 0.08333333333333333
+  },
+  "minimum_test_n_for_80_percent_power": 277,
+  "minimum_test_n_for_90_percent_power": 359,
+  "planned_v2_test_n": 480,
+  "power_at_planned_n": 0.9693363294719088
+}

@@ -1,0 +1,35 @@
+{
+  "benchmark_hash": "f7dc0a8a5d3bca1d3dd9304389c89f6a9a686a11e89d2a9f367bed39667a86e7",
+  "code_commit": "52bd9f3c703b002c0d03acc0b4ef1a689d86ad9c",
+  "configuration": {
+    "alpha": 0.1,
+    "c_grid": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "risk_weights": {
+      "CM": 3.0,
+      "IC": 0.5,
+      "OE": 3.0,
+      "PROB": 0.25
+    },
+    "rrf_k": 60,
+    "seed": 42
+  },
+  "configuration_hash": "0a8dff089447599623856d376435513d2287e3204035915f196c0aa2d03cfbfa",
+  "experiment_version": "v2-retrospective-pilot-1",
+  "model_hashes": {
+    "b0.joblib": "b370e9dd7f0cde110ced9366c8a102940ef443911fffbaef424ea5a0e01ba4dc",
+    "b1_pca16.joblib": "f464ae34ecaa6c9245242a5a9b4ff76c2b1fda3c20046c6f4f166e564441ca64",
+    "b2_matched_non_q.joblib": "26a9f5cd436f18887b6cc9f39733434a82ae1cd1eba1bb4ad2befb737d0541f3",
+    "hierarchical_b0.joblib": "c5660ac948650ddb11c19a2b7944ecbd80cf2242d4c16e3566654e4fd3139b97",
+    "hierarchical_q_full.joblib": "575ed8d70fafc3131d7fcb1563c716bbf767d843c0ba3c4678127428d5e882be",
+    "q_coherence.joblib": "f9444ac561209dd9b0ff86ab92d201cb897d0c30df33691266ffe3d4da028c70",
+    "q_entropy.joblib": "089a1fd1b20b339684ffb9a2d5a2a92426b3210de0302071045f0375e1b922eb",
+    "q_fidelity.joblib": "5ef92a8fdb85f1183505dc8d614e38cfaad69d5c8b6425ea8a38e46b0fa2152d",
+    "q_full.joblib": "48a902da42273ebc7d79b45be01066fe581dda2574c699b3ed39d0b30ce82f5e"
+  },
+  "split_hash": "8faa41293f0cc45d30ba996490afb064280426827aaeec3c7e7d4a80012186bf",
+  "test_executed": true
+}

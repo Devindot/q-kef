@@ -1,0 +1,47 @@
+{
+  "baseline_label": "Q-KEF v1 frozen experiment",
+  "captured_at_utc": "2026-09-08T16:30:46.4489046Z",
+  "configuration": {
+    "candidate_top_k": 5,
+    "conventional_C": 0.1,
+    "qkef_C": 1.0,
+    "seed": 42,
+    "state_dimension": 16,
+    "test_used_for_selection": false
+  },
+  "file_sha256": {
+    "data/processed/qkef_fiqa_evolution/benchmark_manifest.json": "ba3e9a7eed8de0a067c4f54e4b74356ca9ac740eba5643c7a11a55197003093c",
+    "data/processed/qkef_fiqa_evolution/events.jsonl": "f7dc0a8a5d3bca1d3dd9304389c89f6a9a686a11e89d2a9f367bed39667a86e7",
+    "models/phase3/conventional_evolution.joblib": "44f5b3dd9cfa6116c45b7638a6f125a838ed5dd600af62e38467f522a2fd7479",
+    "models/phase3/feature_manifest.json": "f094bd9d9c3e76ba324e1c723b6109bf91322779cd57c21d620f58d429bd0eb2",
+    "models/phase3/qkef_evolution.joblib": "4947108f1d0a38cd14f5acd442b3060ecc729dfcd21a6670fc2ce14d3f701a34",
+    "models/phase3/quantum_state_encoder.joblib": "914c66c1b4581e100f8957b5e67489cc5bd17bb774f103077e94df0f5c458b23",
+    "reports/final/final_results.json": "93173497d1610005de87dd5851f54cebfde9efbd749fb04cce370cff2c3cc04f",
+    "reports/final/statistical_analysis.json": "ec2454c839f82ad486a6d3fd081a4837b43bdd30fdca18ce36df7730a7e45e0e",
+    "reports/phase3/evolution_model_metrics.json": "d8c576be618ae304c6d3249bb107b35270ac583ce8f46e251d9212371a1bc87d",
+    "reports/phase3/locked_config.json": "b42675942a6a958e2239ed0a3238858d725bbce38525bcfa98abf9af1d670ba1",
+    "reports/phase3/retrieval_metrics.json": "9b099ead69facc5ecaa90c92cf3ea7f37a0cfd2f157b6419c3dbab60526bc494"
+  },
+  "git": {
+    "branch": "phase-4-final-release",
+    "head": "52bd9f3c703b002c0d03acc0b4ef1a689d86ad9c",
+    "working_tree_was_clean": true
+  },
+  "results": {
+    "candidate_mrr": 0.8977777777777779,
+    "candidate_recall_at_1": 0.8533333333333334,
+    "candidate_recall_at_3": 0.9466666666666667,
+    "candidate_recall_at_5": 0.96,
+    "conventional_test_macro_f1": 0.8454598033545402,
+    "mcnemar_exact_p": 0.375,
+    "qkef_test_macro_f1": 0.893331608005521,
+    "test_events": 60
+  },
+  "split_definition": {
+    "dev": 60,
+    "test": 60,
+    "train": 180,
+    "zero_query_overlap": true,
+    "zero_source_ancestry_overlap": true
+  }
+}

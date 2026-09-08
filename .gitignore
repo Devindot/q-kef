@@ -30,5 +30,11 @@ reports/*
 !reports/phase3/*
 !reports/final/
 !reports/final/**
+!reports/v1_frozen/
+!reports/v1_frozen/**
+!reports/v2/
+!reports/v2/**
 models/*
 !models/.gitkeep
+!models/v2/
+!models/v2/**

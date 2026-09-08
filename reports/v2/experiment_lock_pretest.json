@@ -1,0 +1,25 @@
+{
+  "benchmark_hash": "f7dc0a8a5d3bca1d3dd9304389c89f6a9a686a11e89d2a9f367bed39667a86e7",
+  "code_commit": "52bd9f3c703b002c0d03acc0b4ef1a689d86ad9c",
+  "configuration": {
+    "alpha": 0.1,
+    "c_grid": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "risk_weights": {
+      "CM": 3.0,
+      "IC": 0.5,
+      "OE": 3.0,
+      "PROB": 0.25
+    },
+    "rrf_k": 60,
+    "seed": 42
+  },
+  "configuration_hash": "2e0cd6fe799556d2bb7836091cf206d167b942d2cc1cbfc8d1e366d220c4acb6",
+  "experiment_version": "v2-retrospective-pilot-1",
+  "model_hashes": {},
+  "split_hash": "8faa41293f0cc45d30ba996490afb064280426827aaeec3c7e7d4a80012186bf",
+  "test_executed": false
+}

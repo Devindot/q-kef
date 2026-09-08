@@ -1,0 +1,40 @@
+project:
+  version: qkef-v2-retrospective-pilot-1
+  seed: 42
+
+candidate_retrieval:
+  modes: [dense, lexical, hybrid]
+  rrf_k: 60
+  top_k: 10
+
+uncertainty:
+  method: mondrian_split_conformal
+  alpha: 0.10
+  require_singleton: true
+
+risk:
+  weights:
+    obsolete_exposure: 3.0
+    current_evidence_miss: 3.0
+    index_churn: 0.5
+    negative_log_probability: 0.25
+  maximum_soft_risk: 1.5
+  minimum_risk_gap: 0.05
+  hard_rejections: [cross_view, lineage, temporal, authority, preconditions]
+
+benchmark_target:
+  total: 2400
+  per_action: 400
+  train: 1200
+  dev: 360
+  calibration: 360
+  test: 480
+  status: planned_not_executed
+
+pilot:
+  source: frozen_v1_300_event_rows
+  label: retrospective_not_confirmatory
+  train: 120
+  dev: 60
+  calibration_from_v1_train: 60
+  test: 60

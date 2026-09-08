@@ -1,5 +1,7 @@
 # Q-KEF
 
+> **Q-KEF v2 development:** the `qkef-v2-retrieval-safe-evolution` branch adds a retrieval-safe plan–simulate–validate–commit architecture while preserving the existing v1 scientific release. Start with [V2_PROJECT_STATUS.md](V2_PROJECT_STATUS.md) and run `streamlit run app_v2.py`. The v2 results are a retrospective pilot, not a confirmatory experiment, and no patentability or quantum-advantage claim is made.
+
 Quantum-Inspired Knowledge Evolution Framework for Dynamic Enterprise Semantic Graphs
 
 **Project status: Final Academic Release**
