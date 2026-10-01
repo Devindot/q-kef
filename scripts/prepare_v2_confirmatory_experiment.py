@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -30,6 +31,10 @@ from qkef.v2.confirmatory import (
 from qkef.v2.conformal import MondrianConformalClassifier
 from qkef.v2.experiment_lock import ExperimentLock
 from qkef.v2.retrieval import CandidateQuery, select_dev_configuration
+
+
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 
 def main() -> None:
@@ -131,7 +136,9 @@ def main() -> None:
         "test_labels_read_during_preparation": False,
     }
     try:
-        code_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+        git_environment = dict(os.environ)
+        git_environment["GIT_CONFIG_GLOBAL"] = "NUL"
+        code_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, env=git_environment, check=True, capture_output=True, text=True).stdout.strip()
     except Exception:
         code_commit = "unavailable"
     lock = ExperimentLock(

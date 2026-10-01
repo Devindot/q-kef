@@ -38,3 +38,5 @@ models/*
 !models/.gitkeep
 !models/v2/
 !models/v2/**
+!models/v2_confirmatory/
+!models/v2_confirmatory/**

@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import json
 import math
+import os
 import statistics
 import time
 import tracemalloc
@@ -29,6 +30,10 @@ from qkef.v2.risk import CounterfactualEvaluator, SafeTransitionSelector
 from qkef.v2.runtime import QKEFV2Runtime
 from qkef.v2.state import KnowledgeState, V2KnowledgeRecord
 from qkef.v2.transaction import EpochTransactionManager, FailureStage
+
+
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 
 def exact_mcnemar(truth: np.ndarray, left: np.ndarray, right: np.ndarray) -> dict[str, float | int]:
