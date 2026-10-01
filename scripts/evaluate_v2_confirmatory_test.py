@@ -194,6 +194,8 @@ def main() -> None:
     model_dir = root / experiment["model_dir"]
     report_dir = root / experiment["report_dir"]
     report_dir.mkdir(parents=True, exist_ok=True)
+    if (report_dir / "experiment_lock_posttest.json").exists() or (report_dir / "confirmatory_results.json").exists():
+        raise RuntimeError("TEST evaluation receipt already exists; create a new experiment version instead of rerunning")
     pretest = json.loads((report_dir / "pretest_summary.json").read_text(encoding="utf-8"))
     prelock = json.loads((report_dir / "experiment_lock_pretest.json").read_text(encoding="utf-8"))
     if prelock["test_executed"] or pretest["test_evaluation_status"] != "not_executed":
