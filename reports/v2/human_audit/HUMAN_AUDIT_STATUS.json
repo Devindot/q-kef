@@ -1,0 +1,8 @@
+{
+  "automated_integrity_validation": "PASS_ALL_2400",
+  "human_review_complete": false,
+  "reason": "Reviewer identity, judgment, date, and signature cannot be fabricated by software.",
+  "sample_rows": 120,
+  "sampling": "5 events per action per split; 6 actions x 4 splits",
+  "status": "AWAITING_HUMAN_SIGNOFF"
+}

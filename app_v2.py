@@ -30,8 +30,11 @@ def new_runtime() -> QKEFV2Runtime:
 
 
 def results() -> dict:
-    path = ROOT / "reports/v2/v2_results.json"
-    return json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
+    confirmatory = ROOT / "reports/v2/confirmatory/confirmatory_results.json"
+    pilot = ROOT / "reports/v2/v2_results.json"
+    if confirmatory.is_file():
+        return json.loads(confirmatory.read_text(encoding="utf-8"))
+    return json.loads(pilot.read_text(encoding="utf-8")) if pilot.is_file() else {}
 
 
 def incoming(text: str, priority: int) -> V2KnowledgeRecord:
@@ -65,6 +68,14 @@ def main() -> None:
         st.write("The live state is never changed during analysis. Normal retrieval uses ACTIVE records; historical retrieval can include HISTORICAL_ONLY records at a requested valid/system time.")
         st.metric("Current committed epoch", runtime.state.epoch_id)
         st.code(runtime.state.state_hash)
+        if data.get("status") == "CONFIRMATORY_TEST_EXECUTED":
+            st.subheader("Confirmatory evaluation")
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("TEST events", data["test_event_count"])
+            c2.metric("B0 macro-F1", f"{data['model_metrics']['B0']['macro_f1']:.4f}")
+            c3.metric("Q-full macro-F1", f"{data['model_metrics']['Q_FULL']['macro_f1']:.4f}")
+            c4.metric("Safe precision", f"{data['technical_effects']['auto_commit_precision']:.4f}")
+            st.warning(f"Conformal coverage was {data['conformal']['marginal_coverage']:.4f}, below the nominal 0.90 target; this negative result is retained.")
 
     with tabs[1]:
         text = st.text_area("Incoming update", "Effective 2026, the annual management fee is 1.2 percent.", height=120)
@@ -87,7 +98,7 @@ def main() -> None:
     with tabs[2]:
         st.header("Deterministic predecessor candidates")
         st.dataframe(pd.DataFrame([{"rank": index + 1, "identifier": identifier, "text": runtime.state.records[identifier].text if identifier in runtime.state.records else "historical"} for index, identifier in enumerate(analysis.predecessor_candidate_ids if analysis else [])]), hide_index=True, use_container_width=True)
-        st.caption("The full pilot compares dense, lexical, and equal-weight reciprocal-rank fusion. Equal-weight fusion underperformed dense retrieval and was not TEST-tuned.")
+        st.caption("Dense retrieval was selected on DEV. In the confirmatory TEST run it remained stronger than the locked weighted-RRF hybrid; TEST was not used for tuning.")
 
     with tabs[3]:
         st.header("Lifecycle probabilities and conformal set")
@@ -139,10 +150,13 @@ def main() -> None:
 
     with tabs[10]:
         st.header("Matched feature ablation")
-        if data:
+        if data.get("status") == "CONFIRMATORY_TEST_EXECUTED":
+            frame = pd.DataFrame([{"model": name, "macro_f1": values["macro_f1"], "COEXIST_f1": values["per_class"]["COEXIST"]["f1-score"]} for name, values in data["model_metrics"].items()])
+            st.dataframe(frame, hide_index=True, use_container_width=True); st.bar_chart(frame.set_index("model"))
+        elif data:
             frame = pd.DataFrame([{"model": name, "macro_f1": values["TEST"]["macro_f1"], "COEXIST_f1": values["TEST"]["per_class"]["COEXIST"]["f1-score"]} for name, values in data["flat_ablation"].items()])
             st.dataframe(frame, hide_index=True, use_container_width=True); st.bar_chart(frame.set_index("model"))
-        st.warning("All calculations are classical. The pilot does not establish Q-specific advantage.")
+        st.warning("All calculations are classical. The confirmatory run did not establish Q-specific advantage.")
 
     with tabs[11]:
         st.header("Local academic technical effects")

@@ -12,4 +12,6 @@ The shadow lexical probe uses IDF-weighted query-term coverage rather than whole
 
 ## Promotion gate
 
-Before the confirmatory benchmark is generated, the development configuration must be locked with its input hashes and deterministic selection rule. The 2,400-event benchmark remains unexecuted. No new TEST evaluation is authorized by this development artifact.
+Before confirmatory TEST access, the development configuration, benchmark/split hashes, selected hyperparameters, and 11 model hashes were frozen in `reports/v2/confirmatory/experiment_lock_pretest.json`. The 480-event TEST partition was evaluated exactly once. `experiment_lock_posttest.json` changes only `test_executed` to `true`, while the results record `test_evaluation_count: 1`. The evaluation script refuses any rerun while either the post-test lock or results artifact exists.
+
+Post-test changes are limited to reporting, visualization, auditing, and release validation. They do not alter model weights, benchmark rows, selected configuration, or confirmatory predictions.

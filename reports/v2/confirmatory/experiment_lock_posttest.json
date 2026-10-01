@@ -1,0 +1,268 @@
+{
+  "benchmark_hash": "b185f45e22a930c21292b1b4cf7a84534e32563973725178f482282c4a9a1a10",
+  "code_commit": "9c8c9bdbcede4959cef6521c12ad52c92d99f29c",
+  "configuration": {
+    "candidate_selection": {
+      "all_results": [
+        {
+          "configuration": {
+            "dense_weight": 1.0,
+            "lexical_weight": 0.0,
+            "mode": "dense",
+            "rrf_k": 60
+          },
+          "identifier": "dense",
+          "metrics": {
+            "eligible": 180.0,
+            "mrr": 0.8317967372134039,
+            "recall@1": 0.7833333333333333,
+            "recall@10": 0.9333333333333333,
+            "recall@3": 0.8722222222222222,
+            "recall@5": 0.9
+          }
+        },
+        {
+          "configuration": {
+            "dense_weight": 0.0,
+            "lexical_weight": 1.0,
+            "mode": "lexical",
+            "rrf_k": 60
+          },
+          "identifier": "lexical",
+          "metrics": {
+            "eligible": 180.0,
+            "mrr": 0.6867195767195767,
+            "recall@1": 0.6722222222222223,
+            "recall@10": 0.7222222222222222,
+            "recall@3": 0.6944444444444444,
+            "recall@5": 0.7111111111111111
+          }
+        },
+        {
+          "configuration": {
+            "dense_weight": 0.75,
+            "lexical_weight": 0.25,
+            "mode": "hybrid",
+            "rrf_k": 20
+          },
+          "identifier": "hybrid_d0.75_l0.25_k20",
+          "metrics": {
+            "eligible": 180.0,
+            "mrr": 0.7988558201058201,
+            "recall@1": 0.7388888888888889,
+            "recall@10": 0.9166666666666666,
+            "recall@3": 0.8444444444444444,
+            "recall@5": 0.9
+          }
+        },
+        {
+          "configuration": {
+            "dense_weight": 0.5,
+            "lexical_weight": 0.5,
+            "mode": "hybrid",
+            "rrf_k": 20
+          },
+          "identifier": "hybrid_d0.5_l0.5_k20",
+          "metrics": {
+            "eligible": 180.0,
+            "mrr": 0.7498963844797177,
+            "recall@1": 0.7111111111111111,
+            "recall@10": 0.8666666666666667,
+            "recall@3": 0.7666666666666667,
+            "recall@5": 0.7888888888888889
+          }
+        },
+        {
+          "configuration": {
+            "dense_weight": 0.25,
+            "lexical_weight": 0.75,
+            "mode": "hybrid",
+            "rrf_k": 20
+          },
+          "identifier": "hybrid_d0.25_l0.75_k20",
+          "metrics": {
+            "eligible": 180.0,
+            "mrr": 0.7048765432098766,
+            "recall@1": 0.6833333333333333,
+            "recall@10": 0.75,
+            "recall@3": 0.7222222222222222,
+            "recall@5": 0.7222222222222222
+          }
+        },
+        {
+          "configuration": {
+            "dense_weight": 0.75,
+            "lexical_weight": 0.25,
+            "mode": "hybrid",
+            "rrf_k": 60
+          },
+          "identifier": "hybrid_d0.75_l0.25_k60",
+          "metrics": {
+            "eligible": 180.0,
+            "mrr": 0.7701807760141094,
+            "recall@1": 0.7222222222222222,
+            "recall@10": 0.9166666666666666,
+            "recall@3": 0.7777777777777778,
+            "recall@5": 0.8388888888888889
+          }
+        },
+        {
+          "configuration": {
+            "dense_weight": 0.5,
+            "lexical_weight": 0.5,
+            "mode": "hybrid",
+            "rrf_k": 60
+          },
+          "identifier": "hybrid_d0.5_l0.5_k60",
+          "metrics": {
+            "eligible": 180.0,
+            "mrr": 0.7351146384479718,
+            "recall@1": 0.7055555555555556,
+            "recall@10": 0.8111111111111111,
+            "recall@3": 0.75,
+            "recall@5": 0.7777777777777778
+          }
+        },
+        {
+          "configuration": {
+            "dense_weight": 0.25,
+            "lexical_weight": 0.75,
+            "mode": "hybrid",
+            "rrf_k": 60
+          },
+          "identifier": "hybrid_d0.25_l0.75_k60",
+          "metrics": {
+            "eligible": 180.0,
+            "mrr": 0.7125462962962963,
+            "recall@1": 0.6944444444444444,
+            "recall@10": 0.75,
+            "recall@3": 0.7222222222222222,
+            "recall@5": 0.7388888888888889
+          }
+        }
+      ],
+      "selected": {
+        "dense_weight": 1.0,
+        "lexical_weight": 0.0,
+        "mode": "dense",
+        "rrf_k": 60
+      },
+      "selected_identifier": "dense",
+      "selected_metrics": {
+        "eligible": 180.0,
+        "mrr": 0.8317967372134039,
+        "recall@1": 0.7833333333333333,
+        "recall@10": 0.9333333333333333,
+        "recall@3": 0.8722222222222222,
+        "recall@5": 0.9
+      },
+      "selection_split": "dev"
+    },
+    "class_order": [
+      "NEW",
+      "REPLACE",
+      "MERGE",
+      "ARCHIVE",
+      "COEXIST",
+      "SPLIT"
+    ],
+    "experiment": {
+      "candidate_retrieval": {
+        "hybrid_weights": [
+          [
+            0.75,
+            0.25
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.25,
+            0.75
+          ]
+        ],
+        "rrf_ks": [
+          20,
+          60
+        ],
+        "top_k": 10
+      },
+      "conformal": {
+        "alpha": 0.1,
+        "require_singleton": true
+      },
+      "embedding": {
+        "batch_size": 32,
+        "cache_dir": "data/processed/qkef_v2_confirmatory_embeddings",
+        "device": "cpu",
+        "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+        "version": "1.0"
+      },
+      "experiment": {
+        "benchmark_dir": "data/processed/qkef_v2_confirmatory_benchmark",
+        "model_dir": "models/v2_confirmatory",
+        "output_dir": "data/processed/qkef_v2_confirmatory_experiment",
+        "report_dir": "reports/v2/confirmatory",
+        "seed": 42,
+        "version": "qkef-v2-confirmatory-1"
+      },
+      "models": {
+        "c_grid": [
+          0.1,
+          1.0,
+          10.0
+        ],
+        "state_dimension": 16
+      },
+      "risk": {
+        "maximum_soft_risk": 1.5,
+        "minimum_risk_gap": 0.05,
+        "weights": {
+          "CM": 3.0,
+          "IC": 0.5,
+          "OE": 3.0,
+          "PROB": 0.25
+        }
+      }
+    },
+    "feature_shapes": {
+      "B0": 21,
+      "B1_PCA16": 37,
+      "B2_MATCHED_NON_Q": 31,
+      "Q_COHERENCE": 23,
+      "Q_ENTROPY": 23,
+      "Q_FIDELITY": 26,
+      "Q_FULL": 31
+    },
+    "selected_C": {
+      "B0": 10.0,
+      "B1_PCA16": 1.0,
+      "B2_MATCHED_NON_Q": 1.0,
+      "HIERARCHICAL_B0": 1.0,
+      "HIERARCHICAL_Q_FULL": 0.1,
+      "Q_COHERENCE": 1.0,
+      "Q_ENTROPY": 10.0,
+      "Q_FIDELITY": 10.0,
+      "Q_FULL": 0.1
+    },
+    "test_labels_read_during_preparation": false
+  },
+  "configuration_hash": "142ad4f201a80bfbbadfc0647106d1dcbfa3bc941ed82910e50df3522f4c1272",
+  "experiment_version": "qkef-v2-confirmatory-1",
+  "model_hashes": {
+    "b0.joblib": "4a563aac62b9a7bc166b0cd67c15d25f0d7430ea7a8b24a3b46702f6b4c770c4",
+    "b1_pca16.joblib": "5af279ebbfe41332380c16d1e076f743e6d7534f717c64b4546b54e864d7b55b",
+    "b2_matched_non_q.joblib": "386760bf9ec93ddd64b2330627bf6a6ae56bf3b4de8d8b68a90e1cf4022d91d2",
+    "hierarchical_b0.joblib": "9b8353a7b222826e2e4542f8bcaac6a415b2359144defd6cdc9b6a32779d4200",
+    "hierarchical_q_full.joblib": "9f517c206f3230383f78fc2f46d64f6c5105899d252e79f0e47847c2e61750b9",
+    "mondrian_conformal.joblib": "d4a005fe90bf1acbaaff6e7f9b1874089853e0d9d8903191a0a90ddc4333dc73",
+    "q_coherence.joblib": "8e1ce8a969545ff792eecb12a198e57f91ccc2f366823a6a77a807879912e1ae",
+    "q_entropy.joblib": "a115e2f42cddb4a84dc60cb959526893d29ff6604f4bcf669fe1bdb108fd2d00",
+    "q_fidelity.joblib": "3b1672d904e0ea62c35b90d20f0bfcaa5872c2e7bd72a6659897a4244983686d",
+    "q_full.joblib": "e00cff0fe0b11d3e14afa46d9749961995703f5422e0af685c1ce00970a88f4c",
+    "state_encoder.joblib": "4b277f3f5179dbb303351e4286b211191515a762fb22f9e4eccb3610ddc12588"
+  },
+  "split_hash": "994800551fa66fe7da68ecedac730cc4182be6c25bbe64f4f74c036784de4862",
+  "test_executed": true
+}

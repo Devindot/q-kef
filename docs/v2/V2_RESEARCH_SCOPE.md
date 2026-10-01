@@ -11,6 +11,6 @@ Q-KEF v2 investigates a retrieval-safe lifecycle-transition architecture. Its qu
 5. Does epoch publication prevent mixed graph/index state under injected failure?
 6. What search-space reduction, latency, memory, churn, and quarantine costs result?
 
-The v1 300-event results are a frozen scientific baseline. The current v2 evaluation is a retrospective architecture pilot, not a new confirmatory benchmark. A leakage-isolated 2,400-event benchmark with 480 TEST events remains planned.
+The v1 300-event results remain a frozen scientific baseline. Q-KEF v2 completed a separate leakage-isolated 2,400-event confirmatory benchmark with 480 TEST events and a one-time locked evaluation. Dense retrieval and flat B0 remained the strongest tested retrieval/model configurations; the optional Q-full representation did not outperform B0.
 
 The primary architectural contribution under investigation is retrieval-safe knowledge evolution. The quantum-inspired representation is an optional feature representation evaluated through matched ablation. No quantum advantage, production generality, novelty, or patentability is assumed.

@@ -1,6 +1,6 @@
 # Q-KEF
 
-> **Q-KEF v2 development:** the `qkef-v2-retrieval-safe-evolution` branch adds a retrieval-safe plan–simulate–validate–commit architecture while preserving the existing v1 scientific release. Start with [V2_PROJECT_STATUS.md](V2_PROJECT_STATUS.md) and run `streamlit run app_v2.py`. The v2 results are a retrospective pilot, not a confirmatory experiment, and no patentability or quantum-advantage claim is made.
+> **Q-KEF v2 final release:** the `qkef-v2-retrieval-safe-evolution` branch adds a retrieval-safe plan–simulate–validate–commit architecture while preserving the v1 scientific release. The ancestry-isolated 2,400-event confirmatory experiment is complete. Start with [V2_PROJECT_STATUS.md](V2_PROJECT_STATUS.md) and run `streamlit run app_v2.py`. Results do not establish patentability, production readiness, or quantum advantage.
 
 Quantum-Inspired Knowledge Evolution Framework for Dynamic Enterprise Semantic Graphs
 
@@ -52,6 +52,10 @@ MiniLM embeddings are transformed by a TRAIN-only 16-dimensional PCA basis and L
 
 Candidate Recall@5 is 0.9600. On held-out TEST, B achieved 0.8455 macro F1 and C achieved 0.8933, a descriptive +0.0479 absolute difference. Obsolete retrieval@5 was 0.3393 for append-only and 0.1180 for Q-KEF. See [the final experiment report](reports/FINAL_EXPERIMENT_REPORT.md) for uncertainty and limitations.
 
+### Q-KEF v2 confirmatory results
+
+The 2,400-event confirmatory benchmark used 1,200 TRAIN, 360 DEV, 360 CALIBRATION, and one 480-event TEST evaluation. Dense Recall@5 was 0.8958. B0 achieved 0.8791 macro-F1 and Q-full achieved 0.8708; Q-full did not beat B0. Safe auto-commit precision was 0.9466 on 281/480 transitions, graph/index consistency was 1.0, and all seven failure stages preserved the prior epoch. Conformal coverage was only 0.7792 versus the nominal 0.90 target, a retained negative result. See [the confirmatory report](reports/v2/confirmatory/CONFIRMATORY_EXPERIMENT_REPORT.md).
+
 ## Installation
 
 Verified with Python 3.12.13.
@@ -81,6 +85,7 @@ The final app consumes frozen Phase 3 models and reports. See [REPRODUCIBILITY.m
 python -m compileall -q src scripts tests app.py
 pytest -q
 pip check
+python scripts/v2_release_check.py
 ```
 
 ## Repository Structure
@@ -90,6 +95,7 @@ pip check
 - `models/phase3/`: trusted frozen model artifacts generated locally.
 - `reports/phase3/`: frozen scientific outputs.
 - `reports/final/`: statistics, supplementary analyses, figures, tables, results, and release manifest.
+- `reports/v2/confirmatory/`: locked pre/post-TEST receipts, predictions, statistics, technical effects, and final figures.
 - `docs/`: architecture, claims, demo, viva, reproduction, responsible-use, and handoff guides.
 - `app.py`: final Streamlit entry point.
 
@@ -107,4 +113,4 @@ All quantum-inspired calculations are classical linear algebra. Q-KEF does not d
 
 ## Project Status
 
-Phases 0–4 are complete. The release includes the backend, frozen experiment, interactive application, deterministic QA, post-hoc statistics, figures, documentation, regression tests, and final release validator.
+Phases 0–4 and the Q-KEF v2 confirmatory release are complete. Independent human sign-off on the prepared v2 audit sample remains external to the software release.

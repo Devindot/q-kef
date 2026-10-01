@@ -4,7 +4,7 @@
 
 Target 2,400 balanced events: 1,200 TRAIN, 360 DEV, 360 CAL, and 480 TEST. Source ancestry and source-query sets must be disjoint across all four partitions. If those controls cannot support the target, the maximum defensible balanced size will be reported without duplication.
 
-Construction status: the full target has been deterministically generated with 400 events per action and zero pairwise query/document ancestry overlap. This is a benchmark-construction milestone only. TEST has not been used for model fitting, configuration selection, or evaluation; human review of the controlled synthetic scenarios remains pending.
+Execution status: the full target was deterministically generated with 400 events per action and zero pairwise query/document ancestry overlap. Models and all configuration choices were locked from TRAIN/DEV/CAL before TEST access. The 480-event TEST partition was then evaluated exactly once; the post-test lock receipt and complete predictions are preserved under `reports/v2/confirmatory/`. Human review of the controlled synthetic scenarios remains pending.
 
 ## Comparisons
 
@@ -17,4 +17,4 @@ Construction status: the full target has been deterministically generated with 4
 
 Metrics include candidate Recall@1/3/5/10 and MRR; lifecycle accuracy, balanced accuracy, macro/weighted F1 and per-class scores; conformal coverage/set size/quarantine; stale exposure/current miss; p50/p95 latency; index size/churn; memory; mixed epochs; and rollback equality. Paired bootstrap, exact McNemar, Wilson intervals, and Holm correction are used where appropriate.
 
-The implemented retrospective pilot reserves 60 TRAIN-derived CAL rows, uses 120 TRAIN and 60 DEV rows for fitting/selection, and reports the untouched existing 60 TEST rows only as exploratory v2 evidence.
+The earlier retrospective pilot remains frozen as exploratory evidence. Its 60-row TEST result is not pooled with or substituted for the ancestry-isolated confirmatory result.

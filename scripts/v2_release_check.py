@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import csv
 import json
 from pathlib import Path
 
@@ -24,6 +25,14 @@ V2_DOCS = [
     "V2_DEVELOPMENT_PROTOCOL.md",
 ]
 PATENT_DOCS = ["PRIOR_ART_BOUNDARIES.md", "INVENTIVE_NUCLEUS.md", "DIFFERENTIATION_MATRIX.md", "SECTION_3K_TECHNICAL_EFFECT_NOTES.md", "INVENTION_DISCLOSURE_DRAFT.md", "CLAIM_CONCEPT_MAP.md", "TECHNICAL_EFFECT_EVIDENCE_PLAN.md", "PRIOR_ART_SEARCH_TERMS.md"]
+CONFIRMATORY_FIGURES = {
+    "figure_01_model_macro_f1.png",
+    "figure_02_candidate_recall5.png",
+    "figure_03_conformal_coverage.png",
+    "figure_04_execution_precision.png",
+    "figure_05_index_size.png",
+    "figure_06_hypothesis_outcomes.png",
+}
 
 
 def baseline(root: Path) -> None:
@@ -50,6 +59,46 @@ def architecture() -> None:
         candidate = demo.analyze_incoming_knowledge(incoming, ["old"], {"REPLACE": 0.99}, ["REPLACE"])
         failed = demo.commit_transition(candidate, fail_at=stage)
         assert not failed.committed and demo.state.state_hash == before
+
+
+def confirmatory_release(root: Path) -> None:
+    report_dir = root / "reports/v2/confirmatory"
+    results = json.loads((report_dir / "confirmatory_results.json").read_text(encoding="utf-8"))
+    statistics = json.loads((report_dir / "confirmatory_statistics.json").read_text(encoding="utf-8"))
+    prelock = json.loads((report_dir / "experiment_lock_pretest.json").read_text(encoding="utf-8"))
+    postlock = json.loads((report_dir / "experiment_lock_posttest.json").read_text(encoding="utf-8"))
+    assert results["status"] == "CONFIRMATORY_TEST_EXECUTED"
+    assert results["test_event_count"] == 480
+    assert results["test_evaluation_count"] == 1
+    planned = statistics["planned_contrasts"]["Q_FULL_vs_B2_MATCHED_NON_Q"]
+    assert planned["challenger"] == "Q_FULL" and planned["baseline"] == "B2_MATCHED_NON_Q"
+    assert planned["mcnemar"]["exact_p"] == 0.14961278438568115
+    assert prelock["test_executed"] is False and postlock["test_executed"] is True
+    assert prelock["configuration_hash"] == postlock["configuration_hash"]
+    assert prelock["configuration_hash"] == "142ad4f201a80bfbbadfc0647106d1dcbfa3bc941ed82910e50df3522f4c1272"
+    assert prelock["benchmark_hash"] == postlock["benchmark_hash"]
+    assert prelock["split_hash"] == postlock["split_hash"]
+    assert prelock["model_hashes"] == postlock["model_hashes"]
+    for name, expected in prelock["model_hashes"].items():
+        path = root / "models/v2_confirmatory" / name
+        assert sha256_file(path) == expected, f"confirmatory model hash mismatch: {name}"
+        joblib.load(path)
+
+    assert {path.name for path in (report_dir / "figures").glob("figure_*.png")} == CONFIRMATORY_FIGURES
+    audit = json.loads((root / "reports/v2/human_audit/HUMAN_AUDIT_STATUS.json").read_text(encoding="utf-8"))
+    assert audit["automated_integrity_validation"] == "PASS_ALL_2400"
+    assert audit["status"] == "AWAITING_HUMAN_SIGNOFF"
+    assert audit["human_review_complete"] is False
+    with (root / "reports/v2/human_audit/stratified_review_sample.csv").open(newline="", encoding="utf-8") as handle:
+        assert sum(1 for _ in csv.DictReader(handle)) == 120
+
+    manifest = json.loads((root / "reports/v2/final_release_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["release_status"] == "MACHINE_COMPLETE_HUMAN_SIGNOFF_PENDING"
+    assert manifest["test_evaluation_count"] == 1 and manifest["test_event_count"] == 480
+    assert manifest["human_audit_status"] == "AWAITING_HUMAN_SIGNOFF"
+    assert len(manifest["file_sha256"]) >= 40
+    for relative, expected in manifest["file_sha256"].items():
+        assert sha256_file(root / relative) == expected, f"final release hash mismatch: {relative}"
 
 
 def outputs(root: Path) -> None:
@@ -84,6 +133,7 @@ def outputs(root: Path) -> None:
     assert confirmatory["integrity_validation_status"] == confirmatory["leakage_validation_status"] == "pass"
     assert confirmatory["test_evaluation_status"] == "not_executed"
     assert all(not values["query_count"] and not values["document_count"] for values in partition["cross_split_overlaps"].values())
+    confirmatory_release(root)
     spec = importlib.util.spec_from_file_location("qkef_v2_app", root / "app_v2.py")
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
@@ -91,7 +141,7 @@ def outputs(root: Path) -> None:
 
 def main() -> None:
     baseline(PROJECT_ROOT); architecture(); outputs(PROJECT_ROOT)
-    print("PASS: v1 hashes, v2 leakage separation, DEV-only retrieval lock, 2,400-event ancestry-isolated benchmark construction, shadow immutability, epoch consistency, failure restoration, rollback, certificates, models, reports, figures, and offline app import validated.")
+    print("PASS: v1 hashes; v2 leakage separation; 2,400-event ancestry-isolated benchmark; one-time 480-event confirmatory TEST receipt; pre/post locks; model and final-release hashes; audit pack; shadow immutability; epoch consistency; failure restoration; rollback; certificates; reports; figures; and offline app import validated.")
 
 
 if __name__ == "__main__":

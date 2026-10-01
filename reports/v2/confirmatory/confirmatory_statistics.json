@@ -1,0 +1,184 @@
+{
+  "candidate_recall_wilson_95_ci": {
+    "dense": {
+      "recall@1": [
+        0.7493355608027431,
+        0.8494141378994754
+      ],
+      "recall@10": [
+        0.8994534372476064,
+        0.9617618828035297
+      ],
+      "recall@3": [
+        0.8131895522590333,
+        0.9003888557833366
+      ],
+      "recall@5": [
+        0.8507518260304615,
+        0.9284429873491379
+      ]
+    },
+    "lexical": {
+      "recall@1": [
+        0.6176863093160275,
+        0.7350018693715806
+      ],
+      "recall@10": [
+        0.6696622097821726,
+        0.7814505769112795
+      ],
+      "recall@3": [
+        0.6262936162349089,
+        0.7427986637870065
+      ],
+      "recall@5": [
+        0.6349223805185311,
+        0.7505740008376915
+      ]
+    },
+    "locked_hybrid": {
+      "recall@1": [
+        0.6959703060101055,
+        0.8043547846862689
+      ],
+      "recall@10": [
+        0.8845739334081344,
+        0.9520352346415408
+      ],
+      "recall@3": [
+        0.7764581337597003,
+        0.8715038689454402
+      ],
+      "recall@5": [
+        0.8412680944383407,
+        0.9215226176069512
+      ]
+    }
+  },
+  "comparisons": {
+    "B1_PCA16": {
+      "holm_adjusted_p": 1.0,
+      "macro_f1_difference_vs_B0": -0.010381366164214256,
+      "mcnemar": {
+        "exact_p": 0.5113757815852296,
+        "left_only_correct": 21,
+        "right_only_correct": 16
+      },
+      "paired_bootstrap_95_ci": [
+        -0.035521332441079814,
+        0.013147301310611745
+      ]
+    },
+    "B2_MATCHED_NON_Q": {
+      "holm_adjusted_p": 0.10243308544158936,
+      "macro_f1_difference_vs_B0": -0.027332750252953897,
+      "mcnemar": {
+        "exact_p": 0.01463329792022705,
+        "left_only_correct": 19,
+        "right_only_correct": 6
+      },
+      "paired_bootstrap_95_ci": [
+        -0.04828569932079636,
+        -0.006890050186590495
+      ]
+    },
+    "HIERARCHICAL_B0": {
+      "holm_adjusted_p": 0.09221127723490785,
+      "macro_f1_difference_vs_B0": -0.0899355994301606,
+      "mcnemar": {
+        "exact_p": 0.011526409654363481,
+        "left_only_correct": 46,
+        "right_only_correct": 24
+      },
+      "paired_bootstrap_95_ci": [
+        -0.11917228763174373,
+        -0.060057804370581974
+      ]
+    },
+    "HIERARCHICAL_Q_FULL": {
+      "holm_adjusted_p": 0.2377020893909981,
+      "macro_f1_difference_vs_B0": -0.06691186498889312,
+      "mcnemar": {
+        "exact_p": 0.03961701489849968,
+        "left_only_correct": 39,
+        "right_only_correct": 22
+      },
+      "paired_bootstrap_95_ci": [
+        -0.09560739357230816,
+        -0.03674601285244193
+      ]
+    },
+    "Q_COHERENCE": {
+      "holm_adjusted_p": 1.0,
+      "macro_f1_difference_vs_B0": -0.004440736986379701,
+      "mcnemar": {
+        "exact_p": 0.6875,
+        "left_only_correct": 4,
+        "right_only_correct": 2
+      },
+      "paired_bootstrap_95_ci": [
+        -0.014734297676177089,
+        0.005311362093804727
+      ]
+    },
+    "Q_ENTROPY": {
+      "holm_adjusted_p": 1.0,
+      "macro_f1_difference_vs_B0": -0.004440736986379701,
+      "mcnemar": {
+        "exact_p": 0.625,
+        "left_only_correct": 3,
+        "right_only_correct": 1
+      },
+      "paired_bootstrap_95_ci": [
+        -0.013349533782731812,
+        0.003794921461591656
+      ]
+    },
+    "Q_FIDELITY": {
+      "holm_adjusted_p": 1.0,
+      "macro_f1_difference_vs_B0": -0.012628201526177829,
+      "mcnemar": {
+        "exact_p": 0.210113525390625,
+        "left_only_correct": 11,
+        "right_only_correct": 5
+      },
+      "paired_bootstrap_95_ci": [
+        -0.029603452081043827,
+        0.0033474604977163473
+      ]
+    },
+    "Q_FULL": {
+      "holm_adjusted_p": 1.0,
+      "macro_f1_difference_vs_B0": -0.008261946623845495,
+      "mcnemar": {
+        "exact_p": 0.454498291015625,
+        "left_only_correct": 10,
+        "right_only_correct": 6
+      },
+      "paired_bootstrap_95_ci": [
+        -0.024994296861750805,
+        0.007821940493160902
+      ]
+    }
+  },
+  "iterations": 5000,
+  "multiple_comparison_method": "Holm",
+  "planned_contrasts": {
+    "Q_FULL_vs_B2_MATCHED_NON_Q": {
+      "baseline": "B2_MATCHED_NON_Q",
+      "challenger": "Q_FULL",
+      "macro_f1_difference": 0.0190708036291084,
+      "mcnemar": {
+        "exact_p": 0.14961278438568115,
+        "left_only_correct": 20,
+        "right_only_correct": 11
+      },
+      "multiplicity_note": "Planned direct H3 contrast; reported unadjusted and not included in the B0-family Holm correction.",
+      "paired_bootstrap_95_ci": [
+        -0.0030786951212459887,
+        0.04231340561899464
+      ]
+    }
+  },
+  "seed": 42
+}

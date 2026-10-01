@@ -29,7 +29,9 @@ benchmark_target:
   dev: 360
   calibration: 360
   test: 480
-  status: planned_not_executed
+  status: completed_single_test_evaluation
+  confirmatory_configuration: configs/v2_confirmatory_experiment.yaml
+  results: reports/v2/confirmatory/confirmatory_results.json
 
 pilot:
   source: frozen_v1_300_event_rows

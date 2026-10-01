@@ -129,3 +129,37 @@ def test_confirmatory_benchmark_manifest_is_construction_only_and_balanced():
     assert set(manifest["count_per_action"].values()) == {400}
     assert manifest["test_evaluation_status"] == "not_executed"
     assert all(not values["query_count"] and not values["document_count"] for values in partition["cross_split_overlaps"].values())
+
+
+def test_confirmatory_test_has_single_execution_receipt_and_unchanged_lock():
+    root = Path(__file__).resolve().parents[1]
+    report_dir = root / "reports/v2/confirmatory"
+    results = json.loads((report_dir / "confirmatory_results.json").read_text())
+    statistics = json.loads((report_dir / "confirmatory_statistics.json").read_text())
+    before = json.loads((report_dir / "experiment_lock_pretest.json").read_text())
+    after = json.loads((report_dir / "experiment_lock_posttest.json").read_text())
+    assert results["status"] == "CONFIRMATORY_TEST_EXECUTED"
+    assert results["test_event_count"] == 480
+    assert results["test_evaluation_count"] == 1
+    contrast = statistics["planned_contrasts"]["Q_FULL_vs_B2_MATCHED_NON_Q"]
+    assert contrast["mcnemar"] == {
+        "exact_p": 0.14961278438568115,
+        "left_only_correct": 20,
+        "right_only_correct": 11,
+    }
+    assert before["test_executed"] is False
+    assert after["test_executed"] is True
+    for field in ("configuration_hash", "benchmark_hash", "split_hash", "model_hashes"):
+        assert before[field] == after[field]
+
+
+def test_final_release_manifest_and_pending_human_audit_are_truthful():
+    root = Path(__file__).resolve().parents[1]
+    manifest = json.loads((root / "reports/v2/final_release_manifest.json").read_text())
+    audit = json.loads((root / "reports/v2/human_audit/HUMAN_AUDIT_STATUS.json").read_text())
+    assert manifest["release_status"] == "MACHINE_COMPLETE_HUMAN_SIGNOFF_PENDING"
+    assert manifest["test_evaluation_count"] == 1
+    assert manifest["test_event_count"] == 480
+    assert audit["automated_integrity_validation"] == "PASS_ALL_2400"
+    assert audit["status"] == "AWAITING_HUMAN_SIGNOFF"
+    assert audit["human_review_complete"] is False
