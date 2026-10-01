@@ -1,0 +1,39 @@
+experiment:
+  version: qkef-v2-confirmatory-1
+  seed: 42
+  benchmark_dir: data/processed/qkef_v2_confirmatory_benchmark
+  output_dir: data/processed/qkef_v2_confirmatory_experiment
+  model_dir: models/v2_confirmatory
+  report_dir: reports/v2/confirmatory
+
+embedding:
+  model_name: sentence-transformers/all-MiniLM-L6-v2
+  device: cpu
+  batch_size: 32
+  cache_dir: data/processed/qkef_v2_confirmatory_embeddings
+  version: "1.0"
+
+candidate_retrieval:
+  top_k: 10
+  rrf_ks: [20, 60]
+  hybrid_weights:
+    - [0.75, 0.25]
+    - [0.50, 0.50]
+    - [0.25, 0.75]
+
+models:
+  c_grid: [0.1, 1.0, 10.0]
+  state_dimension: 16
+
+conformal:
+  alpha: 0.10
+  require_singleton: true
+
+risk:
+  maximum_soft_risk: 1.5
+  minimum_risk_gap: 0.05
+  weights:
+    OE: 3.0
+    CM: 3.0
+    IC: 0.5
+    PROB: 0.25
