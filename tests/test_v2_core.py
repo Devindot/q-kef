@@ -143,3 +143,39 @@ def test_invalid_plans_fail_invariants(base):
     shadow = ShadowStateView(base, plan).materialize()
     results = InvariantChecker().check(base, shadow, plan, incoming)
     assert not next(item for item in results if item.name == "preconditions").passed
+
+
+def test_witnesses_are_anchored_to_incoming_and_contrastive_candidates():
+    probes = witness_queries(
+        "The revised contribution ceiling is 9000 dollars",
+        ["The prior contribution ceiling was 7000 dollars"],
+    )
+    assert probes[0].startswith("revised")
+    assert "9000" in probes[0]
+    assert any("7000" in probe and "9000" in probe for probe in probes)
+
+
+def test_split_children_are_active_affected_lineage(base):
+    incoming = record("incoming")
+    children = [record("child-a"), record("child-b", (0.0, 1.0))]
+    plan = TransitionPlanner().plan(base, "SPLIT", incoming, [], split_children=children)
+    assert {"incoming", "child-a", "child-b"} <= set(plan.affected_lineages)
+    risk = CounterfactualEvaluator().evaluate(base, plan, incoming, 0.99, ["policy evidence child-a"])
+    assert risk.current_evidence_miss == 0.0
+
+
+def test_archive_without_active_successor_has_no_current_evidence_miss(base):
+    incoming = record("archive-notice")
+    plan = TransitionPlanner().plan(base, "ARCHIVE", incoming, ["old"])
+    risk = CounterfactualEvaluator().evaluate(base, plan, incoming, 0.99, ["policy evidence old"])
+    assert risk.current_evidence_miss == 0.0
+
+
+def test_witness_search_uses_query_coverage_not_document_length():
+    distractor = V2KnowledgeRecord("distractor", "alpha", (0.0, 1.0), ("d",))
+    state = KnowledgeState.from_records([distractor])
+    long_text = "alpha beta gamma " + " ".join(f"context{index}" for index in range(100))
+    incoming = V2KnowledgeRecord("incoming", long_text, (1.0, 0.0), ("i",))
+    plan = TransitionPlanner().plan(state, "NEW", incoming)
+    risk = CounterfactualEvaluator(top_k=1).evaluate(state, plan, incoming, 0.99, ["alpha beta gamma"])
+    assert risk.current_evidence_miss == 0.0

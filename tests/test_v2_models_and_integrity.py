@@ -10,7 +10,7 @@ from qkef.v2.adapters import CSVTemporalAdapter, JSONLTemporalAdapter
 from qkef.v2.conformal import MondrianConformalClassifier
 from qkef.v2.experiment_lock import ExperimentLock
 from qkef.v2.hierarchy import CardinalityAwareResolver
-from qkef.v2.retrieval import HybridCandidateResolver, retrieval_metrics
+from qkef.v2.retrieval import CandidateQuery, HybridCandidateResolver, retrieval_metrics, select_dev_configuration
 from qkef.v2.state import AuthorityMetadata, KnowledgeState, V2KnowledgeRecord
 
 
@@ -26,6 +26,24 @@ def test_hybrid_candidate_retrieval_and_metrics_are_deterministic():
     assert resolver.resolve("management fee", (1.0, 0.0), 1, mode="lexical")[0].identifier == "a"
     metrics = retrieval_metrics([[item.identifier for item in first]], [{"a"}])
     assert metrics["recall@1"] == metrics["mrr"] == 1.0
+
+
+def test_dev_retrieval_selection_is_weighted_deterministic_and_leakage_guarded():
+    documents = {"dense-target": "unrelated wording", "lexical-target": "exact policy phrase", "noise": "weather"}
+    vectors = {"dense-target": (1.0, 0.0), "lexical-target": (0.0, 1.0), "noise": (-1.0, 0.0)}
+    queries = [CandidateQuery("q1", "exact policy phrase", (1.0, 0.0), frozenset({"dense-target"}))]
+    selection = select_dev_configuration(documents, vectors, queries, rrf_ks=(20,))
+    assert selection.selected.mode == "dense"
+    assert selection == select_dev_configuration(documents, vectors, queries, rrf_ks=(20,))
+    with pytest.raises(ValueError, match="DEV only"):
+        select_dev_configuration(documents, vectors, [CandidateQuery("q-test", "text", (1.0, 0.0), frozenset({"dense-target"}), split="test")])
+
+
+def test_retrieval_rejects_zero_vectors_and_invalid_weights():
+    with pytest.raises(ValueError, match="finite and non-zero"):
+        HybridCandidateResolver({"a": "text"}, {"a": (0.0, 0.0)})
+    with pytest.raises(ValueError, match="positive sum"):
+        HybridCandidateResolver({"a": "text"}, {"a": (1.0, 0.0)}, dense_weight=0.0, lexical_weight=0.0)
 
 
 def test_mondrian_conformal_sets_and_coverage():
@@ -87,3 +105,16 @@ def test_csv_temporal_adapter_parses_predecessors(tmp_path):
     path.write_text("source_document_id,version_id,content,predecessor_ids\nd,v2,text,v1|v0\n", encoding="utf-8")
     item = CSVTemporalAdapter().load(path)[0]
     assert item.predecessor_ids == ("v1", "v0")
+
+
+def test_development_retrieval_artifact_is_dev_only():
+    root = Path(__file__).resolve().parents[1]
+    artifact = json.loads((root / "reports/v2/development/dev_retrieval_selection.json").read_text())
+    assert artifact["selection_split"] == "dev"
+    assert artifact["test_observations_used"] == 0
+    assert artifact["confirmatory_result"] is False
+    assert artifact["selected_identifier"] == "dense"
+    audit = json.loads((root / "reports/v2/development/dev_witness_audit.json").read_text())
+    assert audit["selection_split"] == "dev"
+    assert audit["test_observations_used"] == 0
+    assert audit["confirmatory_result"] is False

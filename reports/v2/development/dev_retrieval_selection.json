@@ -1,0 +1,173 @@
+{
+  "all_results": [
+    {
+      "configuration": {
+        "dense_weight": 1.0,
+        "lexical_weight": 0.0,
+        "mode": "dense",
+        "rrf_k": 60
+      },
+      "identifier": "dense",
+      "metrics": {
+        "eligible": 30.0,
+        "mrr": 0.9027777777777778,
+        "recall@1": 0.8333333333333334,
+        "recall@10": 1.0,
+        "recall@3": 0.9666666666666667,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "configuration": {
+        "dense_weight": 0.0,
+        "lexical_weight": 1.0,
+        "mode": "lexical",
+        "rrf_k": 60
+      },
+      "identifier": "lexical",
+      "metrics": {
+        "eligible": 30.0,
+        "mrr": 0.7172222222222222,
+        "recall@1": 0.6666666666666666,
+        "recall@10": 0.8666666666666667,
+        "recall@3": 0.7333333333333333,
+        "recall@5": 0.7333333333333333
+      }
+    },
+    {
+      "configuration": {
+        "dense_weight": 0.75,
+        "lexical_weight": 0.25,
+        "mode": "hybrid",
+        "rrf_k": 20
+      },
+      "identifier": "hybrid_d0.75_l0.25_k20",
+      "metrics": {
+        "eligible": 30.0,
+        "mrr": 0.8916666666666667,
+        "recall@1": 0.8,
+        "recall@10": 1.0,
+        "recall@3": 0.9666666666666667,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "configuration": {
+        "dense_weight": 0.5,
+        "lexical_weight": 0.5,
+        "mode": "hybrid",
+        "rrf_k": 20
+      },
+      "identifier": "hybrid_d0.5_l0.5_k20",
+      "metrics": {
+        "eligible": 30.0,
+        "mrr": 0.815,
+        "recall@1": 0.7333333333333333,
+        "recall@10": 1.0,
+        "recall@3": 0.8333333333333334,
+        "recall@5": 0.9666666666666667
+      }
+    },
+    {
+      "configuration": {
+        "dense_weight": 0.25,
+        "lexical_weight": 0.75,
+        "mode": "hybrid",
+        "rrf_k": 20
+      },
+      "identifier": "hybrid_d0.25_l0.75_k20",
+      "metrics": {
+        "eligible": 30.0,
+        "mrr": 0.7728174603174603,
+        "recall@1": 0.7333333333333333,
+        "recall@10": 0.9333333333333333,
+        "recall@3": 0.7666666666666667,
+        "recall@5": 0.8
+      }
+    },
+    {
+      "configuration": {
+        "dense_weight": 0.75,
+        "lexical_weight": 0.25,
+        "mode": "hybrid",
+        "rrf_k": 60
+      },
+      "identifier": "hybrid_d0.75_l0.25_k60",
+      "metrics": {
+        "eligible": 30.0,
+        "mrr": 0.8805555555555556,
+        "recall@1": 0.8,
+        "recall@10": 1.0,
+        "recall@3": 0.9666666666666667,
+        "recall@5": 1.0
+      }
+    },
+    {
+      "configuration": {
+        "dense_weight": 0.5,
+        "lexical_weight": 0.5,
+        "mode": "hybrid",
+        "rrf_k": 60
+      },
+      "identifier": "hybrid_d0.5_l0.5_k60",
+      "metrics": {
+        "eligible": 30.0,
+        "mrr": 0.812037037037037,
+        "recall@1": 0.7333333333333333,
+        "recall@10": 1.0,
+        "recall@3": 0.8333333333333334,
+        "recall@5": 0.9333333333333333
+      }
+    },
+    {
+      "configuration": {
+        "dense_weight": 0.25,
+        "lexical_weight": 0.75,
+        "mode": "hybrid",
+        "rrf_k": 60
+      },
+      "identifier": "hybrid_d0.25_l0.75_k60",
+      "metrics": {
+        "eligible": 30.0,
+        "mrr": 0.7822619047619047,
+        "recall@1": 0.7333333333333333,
+        "recall@10": 0.9333333333333333,
+        "recall@3": 0.7666666666666667,
+        "recall@5": 0.8666666666666667
+      }
+    }
+  ],
+  "artifact_version": "v2-dev-retrieval-selection-1",
+  "confirmatory_result": false,
+  "eligible_dev_query_count": 30,
+  "input_hashes": {
+    "evaluation_labels.csv": "70b862055639ee3f8e8dd044405ac5a2063a993303521693ed786c6d317a6bbe",
+    "events.jsonl": "f7dc0a8a5d3bca1d3dd9304389c89f6a9a686a11e89d2a9f367bed39667a86e7"
+  },
+  "purpose": "configuration selection for a future confirmatory experiment",
+  "query_ids_sha256": "9806357807f8ca5f575ed077ebcbec3d987406ec9672693eb9f40df541cd39ac",
+  "selected": {
+    "dense_weight": 1.0,
+    "lexical_weight": 0.0,
+    "mode": "dense",
+    "rrf_k": 60
+  },
+  "selected_identifier": "dense",
+  "selected_metrics": {
+    "eligible": 30.0,
+    "mrr": 0.9027777777777778,
+    "recall@1": 0.8333333333333334,
+    "recall@10": 1.0,
+    "recall@3": 0.9666666666666667,
+    "recall@5": 1.0
+  },
+  "selection_rule": [
+    "maximize recall@5",
+    "maximize MRR",
+    "maximize recall@1",
+    "prefer simpler mode",
+    "stable identifier"
+  ],
+  "selection_split": "dev",
+  "test_observations_used": 0
+}

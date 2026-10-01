@@ -1,0 +1,53 @@
+{
+  "artifact_version": "v2-dev-witness-audit-1",
+  "by_action": {
+    "ARCHIVE": {
+      "count": 10,
+      "legacy_probe_mean_current_evidence_miss": 0.0,
+      "revised_probe_mean_current_evidence_miss": 0.0
+    },
+    "COEXIST": {
+      "count": 10,
+      "legacy_probe_mean_current_evidence_miss": 0.06666666666666667,
+      "revised_probe_mean_current_evidence_miss": 0.0
+    },
+    "MERGE": {
+      "count": 10,
+      "legacy_probe_mean_current_evidence_miss": 0.1,
+      "revised_probe_mean_current_evidence_miss": 0.0
+    },
+    "NEW": {
+      "count": 10,
+      "legacy_probe_mean_current_evidence_miss": 0.03333333333333333,
+      "revised_probe_mean_current_evidence_miss": 0.0
+    },
+    "REPLACE": {
+      "count": 10,
+      "legacy_probe_mean_current_evidence_miss": 0.03333333333333333,
+      "revised_probe_mean_current_evidence_miss": 0.0
+    },
+    "SPLIT": {
+      "count": 10,
+      "legacy_probe_mean_current_evidence_miss": 0.0,
+      "revised_probe_mean_current_evidence_miss": 0.0
+    }
+  },
+  "comparison_scope": "probe construction comparison under revised DEV evaluator; not a reproduction of the frozen pilot stack",
+  "confirmatory_result": false,
+  "event_count": 60,
+  "event_ids_sha256": "bc39aae1c96ee1ee2e0fdc77c1d98d55d90c5e08d6eb0390d72cebdadf4c7d49",
+  "input_hashes": {
+    "dev_retrieval_selection.json": "33c932946b0b2973cdc798f85a97c904756ef6c7b44c25a23a5acbe049354268",
+    "events.jsonl": "f7dc0a8a5d3bca1d3dd9304389c89f6a9a686a11e89d2a9f367bed39667a86e7"
+  },
+  "interpretation": "DEV-only diagnostic; zero revised-probe miss on this controlled split does not establish out-of-sample performance.",
+  "overall": {
+    "count": 60,
+    "legacy_probe_mean_current_evidence_miss": 0.03888888888888888,
+    "revised_probe_mean_current_evidence_miss": 0.0
+  },
+  "purpose": "post-pilot witness development audit",
+  "selection_split": "dev",
+  "shared_evaluator": "IDF-weighted query-term coverage over the post-transition active index",
+  "test_observations_used": 0
+}

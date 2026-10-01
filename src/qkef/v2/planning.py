@@ -179,7 +179,7 @@ class TransitionPlanner:
             index_removals=tuple(sorted(index_removals)),
             preconditions=tuple(preconditions),
             postconditions=("graph_index_same_epoch", "historical_lineage_retained"),
-            affected_lineages=tuple(sorted(set(predecessors) | {incoming.identifier})),
+            affected_lineages=tuple(sorted(set(predecessors) | {incoming.identifier} | {record.identifier for record in additions})),
             estimated_churn=len(index_additions) + len(index_removals),
             configuration_hash=self.configuration_hash,
         )

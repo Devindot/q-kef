@@ -16,15 +16,37 @@ from qkef.v2.types import ACTIVE_LIFECYCLE_STATES, Decision, RetrievalState
 
 FORBIDDEN_RUNTIME_FIELDS = {"expected_action", "true_action", "expected_target_ids", "mutation_method", "benchmark_split", "relation_type"}
 
+_WITNESS_STOPWORDS = {
+    "and", "are", "but", "for", "from", "has", "have", "into", "not", "that", "the", "their", "this", "was", "were", "with",
+}
+
+
+def _salient_tokens(text: str, document_frequency: Counter[str], limit: int = 6) -> list[str]:
+    tokens = [token for token in re.findall(r"[a-z0-9]+", text.lower()) if len(token) > 2 and token not in _WITNESS_STOPWORDS]
+    counts = Counter(tokens)
+    first_position = {token: tokens.index(token) for token in counts}
+    selected = sorted(
+        counts,
+        key=lambda token: (document_frequency[token], -counts[token], -len(token), first_position[token], token),
+    )[:limit]
+    selected_set = set(selected)
+    return list(dict.fromkeys(token for token in tokens if token in selected_set))
+
 
 def witness_queries(incoming_text: str, candidate_texts: Iterable[str] = (), *, historical_queries: Iterable[str] = (), mode: str = "STRICT_CONTENT_DERIVED") -> tuple[str, ...]:
     if mode not in {"STRICT_CONTENT_DERIVED", "HISTORICAL_QUERY_LOG"}:
         raise ValueError("unsupported witness mode")
-    text = " ".join([incoming_text, *candidate_texts])
-    tokens = [token for token in re.findall(r"[a-z0-9]+", text.lower()) if len(token) > 2]
-    counts = Counter(tokens)
-    ranked = sorted(counts, key=lambda token: (-counts[token], token))
-    probes = [" ".join(ranked[index:index + 4]) for index in range(0, min(12, len(ranked)), 4)]
+    candidates = tuple(candidate_texts)
+    documents = (incoming_text, *candidates)
+    token_sets = [set(re.findall(r"[a-z0-9]+", text.lower())) for text in documents]
+    document_frequency = Counter(token for tokens in token_sets for token in tokens)
+    incoming_tokens = _salient_tokens(incoming_text, document_frequency)
+    probes = [" ".join(incoming_tokens)] if incoming_tokens else []
+    for candidate_text in candidates:
+        candidate_tokens = _salient_tokens(candidate_text, document_frequency, limit=2)
+        contrastive = list(dict.fromkeys([*incoming_tokens, *candidate_tokens]))
+        if contrastive:
+            probes.append(" ".join(contrastive))
     if mode == "HISTORICAL_QUERY_LOG":
         probes.extend(query.strip() for query in historical_queries if query.strip())
     return tuple(dict.fromkeys(probe for probe in probes if probe)) or (incoming_text[:160],)
@@ -89,11 +111,21 @@ class CounterfactualEvaluator:
 
     def _lexical_search(self, state: KnowledgeState, query: str) -> list[str]:
         terms = set(re.findall(r"[a-z0-9]+", query.lower()))
+        document_terms = {
+            identifier: set(re.findall(r"[a-z0-9]+", state.records[identifier].text.lower()))
+            for identifier in sorted(state.index_entries)
+        }
+        document_frequency = Counter(term for words in document_terms.values() for term in words)
+        document_count = max(1, len(document_terms))
+        term_weights = {
+            term: math.log((document_count + 1) / (document_frequency[term] + 1)) + 1.0
+            for term in terms
+        }
+        total_weight = sum(term_weights.values()) or 1.0
         scored = []
-        for identifier in sorted(state.index_entries):
-            record = state.records[identifier]
-            words = set(re.findall(r"[a-z0-9]+", record.text.lower()))
-            scored.append((identifier, len(terms & words) / max(1, len(terms | words))))
+        for identifier, words in document_terms.items():
+            score = sum(term_weights[term] for term in terms & words) / total_weight
+            scored.append((identifier, score))
         return [identifier for identifier, _ in sorted(scored, key=lambda item: (-item[1], item[0]))[:self.top_k]]
 
     def evaluate(self, base: KnowledgeState, plan: TransitionPlan, incoming: V2KnowledgeRecord, probability: float, witnesses: Iterable[str]) -> TransitionRisk:
@@ -105,8 +137,8 @@ class CounterfactualEvaluator:
         rankings = [self._lexical_search(shadow, query) for query in witnesses]
         returned = [identifier for ranking in rankings for identifier in ranking]
         obsolete = sum(shadow.records[identifier].lifecycle_state not in ACTIVE_LIFECYCLE_STATES for identifier in returned) / max(1, len(returned))
-        affected = set(plan.affected_lineages)
-        misses = sum(not any(identifier in affected for identifier in ranking) for ranking in rankings) / max(1, len(rankings))
+        active_affected = set(plan.affected_lineages) & set(shadow.index_entries)
+        misses = 0.0 if not active_affected else sum(not any(identifier in active_affected for identifier in ranking) for ranking in rankings) / max(1, len(rankings))
         churn = len(set(base.index_entries) ^ set(shadow.index_entries)) / max(1, len(base.index_entries))
         failed = {result.name for result in invariants if not result.passed}
         cross = float("active_graph_iff_searchable_index" in failed or "coherent_epoch" in failed)

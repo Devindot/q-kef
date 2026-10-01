@@ -21,6 +21,7 @@ V2_DOCS = [
     "V2_RESEARCH_SCOPE.md", "V2_HYPOTHESES.md", "V2_EXPERIMENT_PLAN.md", "V2_SYSTEM_ARCHITECTURE.md",
     "V2_COUNTERFACTUAL_TRANSITIONS.md", "V2_EPOCH_PROTOCOL.md", "V2_UNCERTAINTY_MODEL.md", "V2_BITEMPORAL_MODEL.md",
     "V2_AUTHORITY_MODEL.md", "V2_QUANTUM_ABLATION.md", "V2_TECHNICAL_EFFECTS.md", "V2_LIMITATIONS.md", "REAL_TEMPORAL_DATA_PLAN.md",
+    "V2_DEVELOPMENT_PROTOCOL.md",
 ]
 PATENT_DOCS = ["PRIOR_ART_BOUNDARIES.md", "INVENTIVE_NUCLEUS.md", "DIFFERENTIATION_MATRIX.md", "SECTION_3K_TECHNICAL_EFFECT_NOTES.md", "INVENTION_DISCLOSURE_DRAFT.md", "CLAIM_CONCEPT_MAP.md", "TECHNICAL_EFFECT_EVIDENCE_PLAN.md", "PRIOR_ART_SEARCH_TERMS.md"]
 
@@ -64,6 +65,17 @@ def outputs(root: Path) -> None:
         path = root / "models/v2" / name
         assert sha256_file(path) == expected
         joblib.load(path)
+    development = json.loads((root / "reports/v2/development/dev_retrieval_selection.json").read_text(encoding="utf-8"))
+    assert development["selection_split"] == "dev"
+    assert development["test_observations_used"] == 0
+    assert development["confirmatory_result"] is False
+    assert development["eligible_dev_query_count"] > 0
+    witness_audit = json.loads((root / "reports/v2/development/dev_witness_audit.json").read_text(encoding="utf-8"))
+    assert witness_audit["selection_split"] == "dev"
+    assert witness_audit["test_observations_used"] == 0
+    assert witness_audit["confirmatory_result"] is False
+    assert witness_audit["event_count"] > 0
+    assert witness_audit["overall"]["revised_probe_mean_current_evidence_miss"] <= witness_audit["overall"]["legacy_probe_mean_current_evidence_miss"]
     spec = importlib.util.spec_from_file_location("qkef_v2_app", root / "app_v2.py")
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
@@ -71,7 +83,7 @@ def outputs(root: Path) -> None:
 
 def main() -> None:
     baseline(PROJECT_ROOT); architecture(); outputs(PROJECT_ROOT)
-    print("PASS: v1 hashes, v2 leakage separation, shadow immutability, epoch consistency, failure restoration, rollback, certificates, models, reports, figures, and offline app import validated.")
+    print("PASS: v1 hashes, v2 leakage separation, DEV-only retrieval lock, shadow immutability, epoch consistency, failure restoration, rollback, certificates, models, reports, figures, and offline app import validated.")
 
 
 if __name__ == "__main__":

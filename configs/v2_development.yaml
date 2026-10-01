@@ -1,0 +1,31 @@
+project:
+  version: qkef-v2-post-pilot-development-1
+  parent_pilot: qkef-v2-retrospective-pilot-1
+  frozen_pilot_results: reports/v2/v2_results.json
+
+data_access:
+  configuration_split: dev
+  test_access: forbidden
+  confirmatory_test_executed: false
+
+candidate_retrieval:
+  selection_artifact: reports/v2/development/dev_retrieval_selection.json
+  mode: dense
+  top_k: 10
+
+witnesses:
+  audit_artifact: reports/v2/development/dev_witness_audit.json
+  mode: STRICT_CONTENT_DERIVED
+  incoming_anchored: true
+  contrastive_predecessor_terms: true
+  current_evidence_population: active_affected_lineage
+  no_active_successor_policy: not_applicable_zero_miss
+
+confirmatory_benchmark:
+  total: 2400
+  per_action: 400
+  train: 1200
+  dev: 360
+  calibration: 360
+  test: 480
+  status: planned_not_executed

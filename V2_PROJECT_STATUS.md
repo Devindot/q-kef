@@ -6,12 +6,16 @@ Implemented: explicit graph/index/epoch state; separate lifecycle/retrieval stat
 
 The completed run is a retrospective pilot on v1 rows, not the planned 2,400-event confirmatory benchmark. Results are mixed: dense retrieval beat equal-weight hybrid, flat B0 beat Q-full and hierarchical variants, 34/60 transitions auto-committed, and current-evidence miss was high. See `reports/v2/V2_EXPERIMENT_REPORT.md`.
 
+Post-pilot development now includes a leakage-guarded DEV-only retrieval selector, weighted RRF configurations, incoming-anchored contrastive witnesses, IDF-weighted shadow retrieval, complete SPLIT affected-lineage accounting, and action-aware current-evidence miss semantics. Dense retrieval was locked from 30 eligible DEV queries (Recall@5 1.000; MRR 0.903), and revised probes had zero current-evidence misses across the controlled 60-event DEV audit. These changes do not alter the frozen pilot results or constitute confirmatory evidence. See `docs/v2/V2_DEVELOPMENT_PROTOCOL.md` and `reports/v2/development/`.
+
 ```powershell
 .phase3-venv\Scripts\python.exe scripts\run_v2_benchmark.py
 .phase3-venv\Scripts\python.exe scripts\run_v2_statistics.py
 .phase3-venv\Scripts\python.exe scripts\v2_power_analysis.py
 .phase3-venv\Scripts\python.exe scripts\generate_v2_figures.py
 .phase3-venv\Scripts\python.exe scripts\v2_release_check.py
+.phase3-venv\Scripts\python.exe scripts\select_v2_dev_retrieval.py
+.phase3-venv\Scripts\python.exe scripts\audit_v2_dev_witnesses.py
 .phase3-venv\Scripts\streamlit.exe run app_v2.py
 ```
 
