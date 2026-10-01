@@ -28,4 +28,6 @@ confirmatory_benchmark:
   dev: 360
   calibration: 360
   test: 480
-  status: planned_not_executed
+  status: constructed_integrity_validated_test_not_evaluated
+  configuration: configs/v2_confirmatory_benchmark.yaml
+  build_report: reports/v2/CONFIRMATORY_BENCHMARK_BUILD.md

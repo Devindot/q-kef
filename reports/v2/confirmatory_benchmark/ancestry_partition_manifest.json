@@ -1,0 +1,86 @@
+{
+  "algorithm": "stable largest-first component allocation by document/query load per requested event weight",
+  "assignment_sha256": "e9e852901268adcf352d645d554a6e49cf89e8324cc21264a066c1aa15795d3b",
+  "component_count": 6646,
+  "counts_by_split": {
+    "calibration": {
+      "components": 996,
+      "documents": 2561,
+      "queries": 996
+    },
+    "dev": {
+      "components": 996,
+      "documents": 2561,
+      "queries": 996
+    },
+    "test": {
+      "components": 1330,
+      "documents": 3415,
+      "queries": 1330
+    },
+    "train": {
+      "components": 3324,
+      "documents": 8535,
+      "queries": 3324
+    }
+  },
+  "cross_split_overlaps": {
+    "calibration_test": {
+      "document_count": 0,
+      "query_count": 0
+    },
+    "dev_calibration": {
+      "document_count": 0,
+      "query_count": 0
+    },
+    "dev_test": {
+      "document_count": 0,
+      "query_count": 0
+    },
+    "train_calibration": {
+      "document_count": 0,
+      "query_count": 0
+    },
+    "train_dev": {
+      "document_count": 0,
+      "query_count": 0
+    },
+    "train_test": {
+      "document_count": 0,
+      "query_count": 0
+    }
+  },
+  "eligible_document_count": 17072,
+  "eligible_positive_qrel_count": 17072,
+  "eligible_query_count": 6646,
+  "original_qrels_split_counts": {
+    "calibration": {
+      "dev": 71,
+      "test": 100,
+      "train": 825
+    },
+    "dev": {
+      "dev": 69,
+      "test": 96,
+      "train": 831
+    },
+    "test": {
+      "dev": 86,
+      "test": 147,
+      "train": 1097
+    },
+    "train": {
+      "dev": 274,
+      "test": 305,
+      "train": 2745
+    }
+  },
+  "partition_version": "ancestry-components-v1",
+  "requested_split_weights": {
+    "calibration": 60,
+    "dev": 60,
+    "test": 80,
+    "train": 200
+  },
+  "seed": 42
+}

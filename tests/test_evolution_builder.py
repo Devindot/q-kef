@@ -13,9 +13,11 @@ from qkef.datasets.evolution import (
     content_signature,
     generate_benchmark_content,
     mutate_numeric_token,
+    validate_benchmark,
 )
 from qkef.datasets.fiqa import load_fiqa_dataset
 from qkef.schemas import EvolutionAction
+from qkef.v2.benchmark import partition_by_ancestry
 
 
 FIXTURE = Path(__file__).parent / "fixtures" / "mini_fiqa"
@@ -97,3 +99,38 @@ def test_written_rebuild_has_identical_research_file_hashes(tmp_path: Path) -> N
     assert first_manifest["generated_file_sha256"] == second_manifest["generated_file_sha256"]
     assert first_manifest["deterministic_content_sha256"] == second_manifest["deterministic_content_sha256"]
     assert json.loads((tmp_path / "one" / "benchmark_manifest.json").read_text())["seed"] == 42
+
+
+def test_ancestry_partition_is_deterministic_and_disjoint() -> None:
+    dataset = load_fiqa_dataset(FIXTURE)
+    weights = {"train": 2, "dev": 1, "calibration": 1, "test": 1}
+    first = partition_by_ancestry(dataset, weights, seed=42)
+    second = partition_by_ancestry(dataset, weights, seed=42)
+    assert first.manifest["assignment_sha256"] == second.manifest["assignment_sha256"]
+    assert all(not values["query_count"] and not values["document_count"] for values in first.manifest["cross_split_overlaps"].values())
+    assert set(first.query_assignments.values()) <= set(weights)
+    assert set(first.document_assignments.values()) <= set(weights)
+
+
+def test_calibration_split_writes_and_validates_when_configured(tmp_path: Path) -> None:
+    dataset = load_fiqa_dataset(FIXTURE)
+    mapping = {
+        "dataset": {"temporal_variant": "synthetic-mini-v2"},
+        "evolution_benchmark": {
+            "seed": 42,
+            "generator_version": "test-v2",
+            "events_per_action": 1,
+            "train_events_per_action": 1,
+            "dev_events_per_action": 0,
+            "calibration_events_per_action": 0,
+            "test_events_per_action": 0,
+            "t0_timestamp": "2025-01-01T00:00:00Z",
+            "t1_timestamp": "2026-01-01T00:00:00Z",
+            "actions": ["NEW", "REPLACE", "MERGE", "ARCHIVE", "COEXIST", "SPLIT"],
+        },
+    }
+    v2_config = EvolutionBenchmarkConfig.from_mapping(mapping)
+    output = tmp_path / "v2"
+    build_benchmark(dataset, v2_config, output, expected_fiqa_md5="fixture")
+    assert (output / "calibration_events.jsonl").read_text() == ""
+    assert validate_benchmark(output, dataset, v2_config).passed

@@ -1,0 +1,110 @@
+{
+  "action_definitions_version": "2.0",
+  "actual_number_of_events": 2400,
+  "ancestry_partition_manifest": "ancestry_partition_manifest.json",
+  "ancestry_partition_manifest_sha256": "613b58ab36a679c8e6bdad71f9e456243bf5f3caf7c7a4310315661f535919f2",
+  "benchmark_name": "qkef-v2-confirmatory-evolution",
+  "benchmark_role": "confirmatory benchmark construction",
+  "benchmark_version": "2.0-construction",
+  "configuration_selection_allowed_splits": [
+    "train",
+    "dev"
+  ],
+  "conformal_fit_split": "calibration",
+  "count_per_action": {
+    "ARCHIVE": 400,
+    "COEXIST": 400,
+    "MERGE": 400,
+    "NEW": 400,
+    "REPLACE": 400,
+    "SPLIT": 400
+  },
+  "count_per_benchmark_split": {
+    "calibration": 360,
+    "dev": 360,
+    "test": 480,
+    "train": 1200
+  },
+  "created_at": "2026-10-01T15:57:26.702456Z",
+  "deterministic_content_sha256": "b185f45e22a930c21292b1b4cf7a84534e32563973725178f482282c4a9a1a10",
+  "deterministic_regeneration_status": true,
+  "fiqa_checksum_verified": true,
+  "fiqa_expected_md5": "17918ed23cd04fb15047f73e6c3bd9d9",
+  "fiqa_observed_md5": "17918ed23cd04fb15047f73e6c3bd9d9",
+  "generated_file_sha256": {
+    "calibration_events.jsonl": "254cb7809eba4955c8a951a3e4b6d92d908fb844a7f775bfb13f3b1241c09d34",
+    "dev_events.jsonl": "a8f7c47f40d05f8af04276c02713374fc491228e08a2537d50060c8007c75c2b",
+    "events.jsonl": "64b00eaf0355473bf33ae8ad22af7cdc563a225c1352ac7466c99ca03c1a8b5b",
+    "review_sample.csv": "4bc8260355333620dc49bbd083073bfe2a0b76470946e73aa125a9ddd0c1d33c",
+    "t0_knowledge.jsonl": "cdeadc2d275e852d6631bd565a65ff2e1cada65193af5bbb135e78dd0b4c30dd",
+    "t1_incoming.jsonl": "4a81ce3ba683c714620e1a343c50a050080bde6a5996dfe8360e79cef888c5b1",
+    "test_events.jsonl": "16045414d0a9a57c4ea5ac2d954b30027f54f4aedfa6e2ab89588a43907cd15d",
+    "train_events.jsonl": "47c31aa1fec64c76892957f512a5eb6b1a291cb2b373f4c1f1e333f9a4a2f430"
+  },
+  "generated_t1_count": 2400,
+  "generation_configuration": {
+    "actions": [
+      "NEW",
+      "REPLACE",
+      "MERGE",
+      "ARCHIVE",
+      "COEXIST",
+      "SPLIT"
+    ],
+    "events_per_action": 400,
+    "split_targets_per_action": {
+      "calibration": 60,
+      "dev": 60,
+      "test": 80,
+      "train": 200
+    }
+  },
+  "generation_statistics": {
+    "count_per_action": {
+      "ARCHIVE": 400,
+      "COEXIST": 400,
+      "MERGE": 400,
+      "NEW": 400,
+      "REPLACE": 400,
+      "SPLIT": 400
+    },
+    "count_per_split": {
+      "calibration": 360,
+      "dev": 360,
+      "test": 480,
+      "train": 1200
+    },
+    "eligible_exclusive_source_documents": 17072,
+    "excluded_cross_qrels_split_documents": 0,
+    "excluded_empty_text_documents": 38,
+    "excluded_unreferenced_or_nonpositive_documents": 40566,
+    "rejected_duplicate_or_near_duplicate_pairs": 0,
+    "review_sample_count": 30,
+    "unique_source_document_count": 3600
+  },
+  "generator_version": "2.0",
+  "integrity_validation_status": "pass",
+  "leakage_validation_status": "pass",
+  "model_evaluation_status": "not_executed",
+  "requested_number_of_events": 2400,
+  "seed": 42,
+  "source_file_sha256": {
+    "corpus.jsonl": "ff593e4df9933955dc3af83be0c3fa28ac7465f627e08c2e53593e734d506517",
+    "qrels/dev.tsv": "03b27e547cd29dc721c3b93ce8ddd70df6b2d0ce954d8ef3659d386e8cd72c11",
+    "qrels/test.tsv": "6adc2a640dcdd22bb8b3858f89107adef2a7c3db20a63550dfa7a0f71e379e44",
+    "qrels/train.tsv": "e46a99529aa61b12e086a5c057e4e0ecaeda9502e53d5fe855efce778f1ec59a",
+    "queries.jsonl": "eede1e61d4a0188940239b53ebc2da91f577a6a34679c812d1eb9090c29877bc"
+  },
+  "source_qrels_split_mapping": {
+    "calibration": "calibration",
+    "dev": "dev",
+    "test": "test",
+    "train": "train"
+  },
+  "t0_knowledge_unit_count": 1600,
+  "t0_timestamp": "2025-01-01T00:00:00Z",
+  "t1_timestamp": "2026-01-01T00:00:00Z",
+  "test_evaluation_status": "not_executed",
+  "unique_source_document_count": 3600,
+  "warnings": []
+}

@@ -118,3 +118,14 @@ def test_development_retrieval_artifact_is_dev_only():
     assert audit["selection_split"] == "dev"
     assert audit["test_observations_used"] == 0
     assert audit["confirmatory_result"] is False
+
+
+def test_confirmatory_benchmark_manifest_is_construction_only_and_balanced():
+    root = Path(__file__).resolve().parents[1]
+    manifest = json.loads((root / "reports/v2/confirmatory_benchmark/benchmark_manifest.json").read_text())
+    partition = json.loads((root / "reports/v2/confirmatory_benchmark/ancestry_partition_manifest.json").read_text())
+    assert manifest["actual_number_of_events"] == 2400
+    assert manifest["count_per_benchmark_split"] == {"train": 1200, "dev": 360, "calibration": 360, "test": 480}
+    assert set(manifest["count_per_action"].values()) == {400}
+    assert manifest["test_evaluation_status"] == "not_executed"
+    assert all(not values["query_count"] and not values["document_count"] for values in partition["cross_split_overlaps"].values())

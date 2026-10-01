@@ -14,6 +14,7 @@ from qkef.schemas.knowledge import EvolutionAction
 class BenchmarkSplit(str, Enum):
     TRAIN = "train"
     DEV = "dev"
+    CALIBRATION = "calibration"
     TEST = "test"
 
 

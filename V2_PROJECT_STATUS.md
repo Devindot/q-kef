@@ -8,6 +8,8 @@ The completed run is a retrospective pilot on v1 rows, not the planned 2,400-eve
 
 Post-pilot development now includes a leakage-guarded DEV-only retrieval selector, weighted RRF configurations, incoming-anchored contrastive witnesses, IDF-weighted shadow retrieval, complete SPLIT affected-lineage accounting, and action-aware current-evidence miss semantics. Dense retrieval was locked from 30 eligible DEV queries (Recall@5 1.000; MRR 0.903), and revised probes had zero current-evidence misses across the controlled 60-event DEV audit. These changes do not alter the frozen pilot results or constitute confirmatory evidence. See `docs/v2/V2_DEVELOPMENT_PROTOCOL.md` and `reports/v2/development/`.
 
+The 2,400-event confirmatory benchmark has now been constructed and integrity-validated: 400 events per action, 1,200 TRAIN, 360 DEV, 360 CALIBRATION, and 480 TEST, using 3,600 unique source documents. Complete query/document ancestry components are assigned to exactly one split; all pairwise overlaps are zero. TEST evaluation remains unexecuted, and the controlled synthetic events still require the planned human audit. See `reports/v2/CONFIRMATORY_BENCHMARK_BUILD.md`.
+
 ```powershell
 .phase3-venv\Scripts\python.exe scripts\run_v2_benchmark.py
 .phase3-venv\Scripts\python.exe scripts\run_v2_statistics.py
@@ -16,6 +18,7 @@ Post-pilot development now includes a leakage-guarded DEV-only retrieval selecto
 .phase3-venv\Scripts\python.exe scripts\v2_release_check.py
 .phase3-venv\Scripts\python.exe scripts\select_v2_dev_retrieval.py
 .phase3-venv\Scripts\python.exe scripts\audit_v2_dev_witnesses.py
+.phase3-venv\Scripts\python.exe scripts\build_v2_confirmatory_benchmark.py
 .phase3-venv\Scripts\streamlit.exe run app_v2.py
 ```
 

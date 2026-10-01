@@ -76,6 +76,14 @@ def outputs(root: Path) -> None:
     assert witness_audit["confirmatory_result"] is False
     assert witness_audit["event_count"] > 0
     assert witness_audit["overall"]["revised_probe_mean_current_evidence_miss"] <= witness_audit["overall"]["legacy_probe_mean_current_evidence_miss"]
+    confirmatory = json.loads((root / "reports/v2/confirmatory_benchmark/benchmark_manifest.json").read_text(encoding="utf-8"))
+    partition = json.loads((root / "reports/v2/confirmatory_benchmark/ancestry_partition_manifest.json").read_text(encoding="utf-8"))
+    assert confirmatory["actual_number_of_events"] == 2400
+    assert set(confirmatory["count_per_action"].values()) == {400}
+    assert confirmatory["count_per_benchmark_split"] == {"train": 1200, "dev": 360, "calibration": 360, "test": 480}
+    assert confirmatory["integrity_validation_status"] == confirmatory["leakage_validation_status"] == "pass"
+    assert confirmatory["test_evaluation_status"] == "not_executed"
+    assert all(not values["query_count"] and not values["document_count"] for values in partition["cross_split_overlaps"].values())
     spec = importlib.util.spec_from_file_location("qkef_v2_app", root / "app_v2.py")
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
@@ -83,7 +91,7 @@ def outputs(root: Path) -> None:
 
 def main() -> None:
     baseline(PROJECT_ROOT); architecture(); outputs(PROJECT_ROOT)
-    print("PASS: v1 hashes, v2 leakage separation, DEV-only retrieval lock, shadow immutability, epoch consistency, failure restoration, rollback, certificates, models, reports, figures, and offline app import validated.")
+    print("PASS: v1 hashes, v2 leakage separation, DEV-only retrieval lock, 2,400-event ancestry-isolated benchmark construction, shadow immutability, epoch consistency, failure restoration, rollback, certificates, models, reports, figures, and offline app import validated.")
 
 
 if __name__ == "__main__":

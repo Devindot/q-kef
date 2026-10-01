@@ -4,6 +4,8 @@
 
 Target 2,400 balanced events: 1,200 TRAIN, 360 DEV, 360 CAL, and 480 TEST. Source ancestry and source-query sets must be disjoint across all four partitions. If those controls cannot support the target, the maximum defensible balanced size will be reported without duplication.
 
+Construction status: the full target has been deterministically generated with 400 events per action and zero pairwise query/document ancestry overlap. This is a benchmark-construction milestone only. TEST has not been used for model fitting, configuration selection, or evaluation; human review of the controlled synthetic scenarios remains pending.
+
 ## Comparisons
 
 - candidates: dense, lexical, deterministic RRF hybrid;

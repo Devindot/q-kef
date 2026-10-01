@@ -1,0 +1,31 @@
+project:
+  seed: 42
+
+dataset:
+  name: fiqa
+  source: beir
+  temporal_variant: qkef-v2-confirmatory-evolution
+  raw_dir: data/raw/beir
+  processed_dir: data/processed/qkef_v2_confirmatory_benchmark
+  source_url: https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/fiqa.zip
+  expected_md5: 17918ed23cd04fb15047f73e6c3bd9d9
+
+evolution_benchmark:
+  seed: 42
+  benchmark_version: "2.0-construction"
+  generator_version: "2.0"
+  action_definitions_version: "2.0"
+  events_per_action: 400
+  train_events_per_action: 200
+  dev_events_per_action: 60
+  calibration_events_per_action: 60
+  test_events_per_action: 80
+  t0_timestamp: "2025-01-01T00:00:00Z"
+  t1_timestamp: "2026-01-01T00:00:00Z"
+  actions:
+    - NEW
+    - REPLACE
+    - MERGE
+    - ARCHIVE
+    - COEXIST
+    - SPLIT

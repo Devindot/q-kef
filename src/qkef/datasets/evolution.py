@@ -10,6 +10,7 @@ import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from itertools import combinations
 from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping, Sequence
 
@@ -27,13 +28,10 @@ from qkef.schemas import (
 MERGE_DELIMITER = "\n\nAdditional related information:\n"
 SPLIT_DELIMITER = "\n\n--- KNOWLEDGE SEGMENT BOUNDARY ---\n\n"
 ARCHIVE_TEMPLATE_VERSION = "1.0"
-REQUIRED_BENCHMARK_FILES = (
+COMMON_BENCHMARK_FILES = (
     "t0_knowledge.jsonl",
     "t1_incoming.jsonl",
     "events.jsonl",
-    "train_events.jsonl",
-    "dev_events.jsonl",
-    "test_events.jsonl",
     "review_sample.csv",
     "benchmark_manifest.json",
 )
@@ -69,8 +67,10 @@ class EvolutionBenchmarkConfig:
         split_targets = {
             "train": int(evolution["train_events_per_action"]),
             "dev": int(evolution["dev_events_per_action"]),
-            "test": int(evolution["test_events_per_action"]),
         }
+        if "calibration_events_per_action" in evolution:
+            split_targets["calibration"] = int(evolution["calibration_events_per_action"])
+        split_targets["test"] = int(evolution["test_events_per_action"])
         events_per_action = int(evolution["events_per_action"])
         if sum(split_targets.values()) != events_per_action:
             raise ValueError("per-split event targets must sum to events_per_action")
@@ -91,6 +91,7 @@ class EvolutionBenchmarkConfig:
             t1_timestamp=t1_timestamp,
             actions=actions,
             benchmark_name=str(dataset["temporal_variant"]),
+            benchmark_version=str(evolution.get("benchmark_version", "1.0")),
         )
 
 
@@ -102,6 +103,7 @@ class BenchmarkContent:
     review_csv: str
     statistics: dict[str, Any]
     warnings: list[str] = field(default_factory=list)
+    split_names: tuple[str, ...] = ("train", "dev", "test")
 
 
 @dataclass
@@ -313,22 +315,22 @@ def _event(
     )
 
 
-def _source_assignments(dataset: FiqaDataset) -> tuple[dict[str, str], set[str]]:
+def _source_assignments(dataset: FiqaDataset, allowed_splits: set[str]) -> tuple[dict[str, str], set[str]]:
     memberships: dict[str, set[str]] = defaultdict(set)
     for qrel in dataset.qrels:
-        if qrel.relevance > 0 and qrel.source_split in {"train", "dev", "test"}:
+        if qrel.relevance > 0 and qrel.source_split in allowed_splits:
             memberships[qrel.document_id].add(qrel.source_split)
     assigned = {document_id: next(iter(splits)) for document_id, splits in memberships.items() if len(splits) == 1}
     conflicts = {document_id for document_id, splits in memberships.items() if len(splits) > 1}
     return assigned, conflicts
 
 
-def _query_pools(dataset: FiqaDataset, assignments: Mapping[str, str]) -> dict[str, dict[str, list[str]]]:
+def _query_pools(dataset: FiqaDataset, assignments: Mapping[str, str], allowed_splits: set[str]) -> dict[str, dict[str, list[str]]]:
     pools: dict[str, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))
     for qrel in dataset.qrels:
         if qrel.relevance <= 0 or assignments.get(qrel.document_id) != qrel.source_split:
             continue
-        if qrel.source_split not in {"train", "dev", "test"}:
+        if qrel.source_split not in allowed_splits:
             continue
         if not dataset.documents[qrel.document_id].text.strip():
             continue
@@ -413,8 +415,9 @@ def _build_review_csv(
 def generate_benchmark_content(dataset: FiqaDataset, config: EvolutionBenchmarkConfig) -> BenchmarkContent:
     """Generate ground-truth content without writing or modifying FiQA sources."""
 
-    assignments, conflicting_documents = _source_assignments(dataset)
-    pools = _query_pools(dataset, assignments)
+    allowed_splits = set(config.split_targets)
+    assignments, conflicting_documents = _source_assignments(dataset, allowed_splits)
+    pools = _query_pools(dataset, assignments, allowed_splits)
     t0_units: list[KnowledgeUnit] = []
     t1_units: list[KnowledgeUnit] = []
     events: list[EvolutionEvent] = []
@@ -422,7 +425,7 @@ def generate_benchmark_content(dataset: FiqaDataset, config: EvolutionBenchmarkC
     rejected_near_duplicates = 0
     eligible_count = len(assignments)
 
-    for split in ("train", "dev", "test"):
+    for split in config.split_targets:
         target = config.split_targets.get(split, 0)
         if target == 0:
             continue
@@ -766,7 +769,7 @@ def generate_benchmark_content(dataset: FiqaDataset, config: EvolutionBenchmarkC
         "unique_source_document_count": len({item for event in events for item in event.source_document_ids}),
         "review_sample_count": sum(1 for line in review_csv.splitlines()[1:] if line),
     }
-    return BenchmarkContent(t0_units, t1_units, events, review_csv, statistics, warnings)
+    return BenchmarkContent(t0_units, t1_units, events, review_csv, statistics, warnings, tuple(config.split_targets))
 
 
 def canonical_json(value: Any) -> str:
@@ -812,7 +815,7 @@ def render_content_files(content: BenchmarkContent) -> dict[str, str]:
         "events.jsonl": _jsonl(content.events),
         "review_sample.csv": content.review_csv,
     }
-    for split in ("train", "dev", "test"):
+    for split in content.split_names:
         files[f"{split}_events.jsonl"] = _jsonl(
             event for event in content.events if event.benchmark_split.value == split
         )
@@ -873,8 +876,8 @@ def build_benchmark(
         "requested_number_of_events": config.events_per_action * len(config.actions),
         "actual_number_of_events": len(content.events),
         "count_per_action": {action.value: action_counts[action.value] for action in config.actions},
-        "count_per_benchmark_split": {split: split_counts[split] for split in ("train", "dev", "test")},
-        "source_qrels_split_mapping": {"train": "train", "dev": "dev", "test": "test"},
+        "count_per_benchmark_split": {split: split_counts[split] for split in content.split_names},
+        "source_qrels_split_mapping": {split: split for split in content.split_names},
         "t0_timestamp": config.t0_timestamp.isoformat().replace("+00:00", "Z"),
         "t1_timestamp": config.t1_timestamp.isoformat().replace("+00:00", "Z"),
         "t0_knowledge_unit_count": len(content.t0_units),
@@ -921,7 +924,8 @@ def validate_benchmark(
     """Perform reference, provenance, temporal, leakage, and source-integrity checks."""
 
     result = ValidationResult()
-    missing = [name for name in REQUIRED_BENCHMARK_FILES if not (benchmark_dir / name).exists()]
+    required_files = (*COMMON_BENCHMARK_FILES, *(f"{split}_events.jsonl" for split in config.split_targets))
+    missing = [name for name in required_files if not (benchmark_dir / name).exists()]
     if missing:
         result.errors.append(f"missing required files: {', '.join(missing)}")
         return result
@@ -1026,7 +1030,8 @@ def validate_benchmark(
                 if incoming.text != left + SPLIT_DELIMITER + right:
                     result.errors.append(f"{event.event_id}: SPLIT compound text mismatch")
 
-    for left, right in (("train", "dev"), ("train", "test"), ("dev", "test")):
+    split_pairs = tuple(combinations(config.split_targets, 2))
+    for left, right in split_pairs:
         overlap = ancestry[left] & ancestry[right]
         if overlap:
             result.errors.append(f"source ancestry leakage {left}/{right}: {len(overlap)} documents")
@@ -1066,7 +1071,7 @@ def validate_benchmark(
             result.errors.append("canonical FiQA archive MD5 mismatch")
 
     split_file_ids: set[str] = set()
-    for split in ("train", "dev", "test"):
+    for split in config.split_targets:
         try:
             split_events = load_jsonl_models(benchmark_dir / f"{split}_events.jsonl", EvolutionEvent)
         except Exception as exc:
@@ -1086,15 +1091,7 @@ def validate_benchmark(
         "t0_count": len(t0_units),
         "t1_count": len(t1_units),
         "unique_source_document_count": len(set().union(*ancestry.values())) if ancestry else 0,
-        "source_overlap": {
-            "train_dev": len(ancestry["train"] & ancestry["dev"]),
-            "train_test": len(ancestry["train"] & ancestry["test"]),
-            "dev_test": len(ancestry["dev"] & ancestry["test"]),
-        },
-        "query_overlap": {
-            "train_dev": len(query_ancestry["train"] & query_ancestry["dev"]),
-            "train_test": len(query_ancestry["train"] & query_ancestry["test"]),
-            "dev_test": len(query_ancestry["dev"] & query_ancestry["test"]),
-        },
+        "source_overlap": {f"{left}_{right}": len(ancestry[left] & ancestry[right]) for left, right in split_pairs},
+        "query_overlap": {f"{left}_{right}": len(query_ancestry[left] & query_ancestry[right]) for left, right in split_pairs},
     }
     return result
